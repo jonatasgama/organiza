@@ -186,13 +186,14 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
+                    <form id="form_pesquisa" method="post" action="{{ route('paciente.procurar') }}"
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        @csrf
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Pesquisar"
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" id="nome" name="nome" class="form-control bg-light border-0 small" placeholder="Pesquisar"
+                                aria-label="Pesquisar" aria-describedby="basic-addon2">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -402,10 +403,11 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
+    <!-- Scroll to Top Button
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+    -->
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -450,22 +452,25 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/locale/pt-br.js'></script>
 
+    
     <script>
     $(document).ready(function(){
         $('#valor').mask('###.###,##', {reverse: true});
         $('#telefone').mask('## #####-####', {reverse: false});
     });
+    </script>
 
+    @if(isset($consultas))
+    <script>
     $(document).ready(function() {
-        // page is now ready, initialize the calendar...
         $('#calendar').fullCalendar({
-            // put your options and callbacks here
-            header: { center: 'month,agendaWeek,listWeek' },
+            header: { center: 'month,listWeek' },
             defaultView: 'month',
             events : [
                 @foreach($consultas as $consulta)
                 {
-                    title : '{{ $consulta->paciente->nome . ' ' . $consulta->paciente->sobrenome }}',
+                    id: '{{ $consulta->id }}',
+                    title : '{{ $consulta->nome . ' ' . $consulta->sobrenome }}',
                     start : '{{ $consulta->inicio_consulta }}',
                     @if ($consulta->fim_consulta)
                             end: '{{ $consulta->fim_consulta }}',
@@ -474,14 +479,40 @@
                 @endforeach
             ],
             eventClick: function(calEvent, jsEvent, view) {
+                $('#event_id').val(calEvent._id);
+                $('#consulta_id').val(calEvent.id);
                 $('#inicio_consulta').val(moment(calEvent.start).format('YYYY-MM-DD HH:mm:ss'));
                 $('#fim_consulta').val(moment(calEvent.end).format('YYYY-MM-DD HH:mm:ss'));
                 $('#editModal').modal();
             }            
         });
+   
+        $('#consulta_update').click(function(e) {
+            e.preventDefault();
+            var data = {
+                _token: '{{ csrf_token() }}',
+                consulta_id: $('#consulta_id').val(),
+                inicio_consulta: $('#inicio_consulta').val(),
+                fim_consulta: $('#fim_consulta').val(),
+            };
+
+            $.post('{{ route('consulta.ajaxUpdate') }}', data, function( result ) {
+                $('#calendar').fullCalendar('removeEvents', $('#event_id').val());
+
+                $('#calendar').fullCalendar('renderEvent', {
+                    title: result.consulta.paciente.nome + ' ' + result.consulta.paciente.sobrenome,
+                    start: result.consulta.inicio_consulta,
+                    end: result.consulta.fim_consulta
+                }, true);
+
+                $('#editModal').modal('hide');
+            });
+        });        
     });
         
     </script>
+    @endif
+    
 </body>
 
 </html>                

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Paciente;
+use App\Models\Consulta;
+use App\Models\Tratamento;
+use App\Models\Pagamento;
 
 class PacienteController extends Controller
 {
@@ -58,7 +61,11 @@ class PacienteController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $paciente = Paciente::find($id);
+        $consultas = Consulta::where('paciente_id', $id)->orderBy('inicio_consulta')->get();
+        $tratamentos = Tratamento::all();
+        $pagamentos = Pagamento::all();
+        return view('cadastra_paciente', [ 'funcao' => 'Visualizar', 'paciente' => $paciente, 'consultas' => $consultas, 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos ]);          
     }
 
     /**
@@ -110,4 +117,15 @@ class PacienteController extends Controller
         $alert = $deletado == true ? 'success' : 'danger';
         return redirect()->route('paciente.index')->with('msg', $msg)->with('alert', $alert);         
     }
+
+    public function procurar(Request $req)
+    {
+        $pacientes = new Paciente();
+
+        $nome = $req->get('nome');
+
+        $pacientes = $pacientes->where('nome', 'like', "%$nome%")->get();
+
+        return view('lista_paciente', [ 'pacientes' => $pacientes ]);          
+    }    
 }

@@ -13,21 +13,23 @@
                 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
+                            <input type="hidden" name="event_id" id="event_id" value="" />
+                            <input type="hidden" name="consulta_id" id="consulta_id" value="" />                            
                             <div class="modal-body">
-                                <h4>Edit Appointment</h4>
+                                <h4>Editar Consulta</h4>
 
-                                Start time:
+                                Início da consulta:
                                 <br />
-                                <input type="text" class="form-control" name="start_time" id="start_time">
+                                <input type="datetime-local" class="form-control" name="inicio_consulta" id="inicio_consulta">
 
-                                End time:
+                                Fim da consulta:
                                 <br />
-                                <input type="text" class="form-control" name="finish_time" id="finish_time">
+                                <input type="datetime-local" class="form-control" name="fim_consulta" id="fim_consulta">
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <input type="button" class="btn btn-primary" id="appointment_update" value="Save">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <input type="button" class="btn btn-primary" id="consulta_update" value="Atualizar">
                             </div>
                         </div>
                     </div>

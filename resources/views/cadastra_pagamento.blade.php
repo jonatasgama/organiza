@@ -10,10 +10,10 @@
                         <h1 class="h3 mb-0 text-gray-800">{{ $funcao }} Forma de Pagamento</h1>
                     </div>
                     <hr>
-                    @if(isset($msg) && isset($alert))
-                        <div class="alert alert-{{ $alert }} alert-dismissible">
+                    @if(session('msg') && session('alert'))
+                        <div class="alert alert-{{ session('alert') }} alert-dismissible">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                            {{ $msg }}
+                            {{ session('msg') }}
                         </div>             
                     @endif
                     <div class="col-lg-12">
