@@ -24,7 +24,9 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        return view('cadastra_paciente', ['funcao' => 'Cadastrar']);
+        $tratamentos = Tratamento::all();
+        $pagamentos = Pagamento::all();
+        return view('cadastra_paciente', ['funcao' => 'Cadastrar', 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos]);
     }
 
     /**

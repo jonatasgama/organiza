@@ -470,8 +470,11 @@
                 @foreach($consultas as $consulta)
                 {
                     id: '{{ $consulta->id }}',
-                    title : '{{ $consulta->nome . ' ' . $consulta->sobrenome }}',
+                    title : '{{ $consulta->paciente->nome . ' ' . $consulta->paciente->sobrenome .' | '. $consulta->tratamento->tratamento }}',
                     start : '{{ $consulta->inicio_consulta }}',
+                    tratamento_id : '{{ $consulta->tratamento_id }}',
+                    pagamento_id : '{{ $consulta->pagamento_id }}',
+                    pagamento : '{{ $consulta->pagamento }}',
                     @if ($consulta->fim_consulta)
                             end: '{{ $consulta->fim_consulta }}',
                     @endif
@@ -481,9 +484,13 @@
             eventClick: function(calEvent, jsEvent, view) {
                 $('#event_id').val(calEvent._id);
                 $('#consulta_id').val(calEvent.id);
-                $('#inicio_consulta').val(moment(calEvent.start).format('YYYY-MM-DD HH:mm:ss'));
-                $('#fim_consulta').val(moment(calEvent.end).format('YYYY-MM-DD HH:mm:ss'));
-                $('#editModal').modal();
+                $('#a_inicio_consulta').val(moment(calEvent.start).format('YYYY-MM-DD HH:mm:ss'));
+                $('#a_fim_consulta').val(moment(calEvent.end).format('YYYY-MM-DD HH:mm:ss'));
+                $('#a_tratamento_id').val(calEvent.tratamento_id);
+                $('#a_pagamento_id').val(calEvent.pagamento_id);
+                $('#a_pagamento').val(calEvent.pagamento);
+                $('#atualizaConsulta').modal();
+                console.log(calEvent);
             }            
         });
    
@@ -492,8 +499,12 @@
             var data = {
                 _token: '{{ csrf_token() }}',
                 consulta_id: $('#consulta_id').val(),
-                inicio_consulta: $('#inicio_consulta').val(),
-                fim_consulta: $('#fim_consulta').val(),
+                inicio_consulta: $('#a_inicio_consulta').val(),
+                fim_consulta: $('#a_fim_consulta').val(),
+                pagamento: $('#a_pagamento').val(),
+                pagamento_id: $('#a_pagamento_id').val(),
+                tratamento_id: $('#a_tratamento_id').val(),
+                
             };
 
             $.post('{{ route('consulta.ajaxUpdate') }}', data, function( result ) {
@@ -502,10 +513,14 @@
                 $('#calendar').fullCalendar('renderEvent', {
                     title: result.consulta.paciente.nome + ' ' + result.consulta.paciente.sobrenome,
                     start: result.consulta.inicio_consulta,
-                    end: result.consulta.fim_consulta
+                    end: result.consulta.fim_consulta,
+                    id: result.consulta.id,
+                    pagamento: result.consulta.pagamento,
+                    pagamento_id: result.consulta.pagamento_id,
+                    tratamento_id: result.consulta.tratamento_id
                 }, true);
 
-                $('#editModal').modal('hide');
+                $('#atualizaConsulta').modal('hide');
             });
         });        
     });

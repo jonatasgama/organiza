@@ -37,5 +37,5 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::resource('paciente', PacienteController::class);
     Route::resource('consulta', ConsultaController::class);
     Route::post('/consulta-ajax', [\App\Http\Controllers\ConsultaController::class, 'ajaxUpdate'])->name('consulta.ajaxUpdate');
-    Route::post('/paciente', [\App\Http\Controllers\PacienteController::class, 'procurar'])->name('paciente.procurar');
+    Route::post('/procurar-paciente', [\App\Http\Controllers\PacienteController::class, 'procurar'])->name('paciente.procurar');
 });

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Consulta;
+use App\Models\Tratamento;
+use App\Models\Pagamento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
 
@@ -14,9 +16,10 @@ class ConsultaController extends Controller
      */
     public function index(Request $req)
     {
-        $consultas = DB::table('consultas')->join('pacientes', 'paciente_id', '=', 'pacientes.id')
-        ->select('consultas.*', 'pacientes.nome', 'pacientes.sobrenome')->get();
-        return view('consultas', ['consultas' => $consultas]);        
+        $consultas = Consulta::with(['paciente'])->get();
+        $tratamentos = Tratamento::all();
+        $pagamentos = Pagamento::all();
+        return view('consultas', ['consultas' => $consultas, 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos]);
     }
 
     public function ajaxUpdate(Request $req)
@@ -24,17 +27,9 @@ class ConsultaController extends Controller
         $consulta = Consulta::find($req->consulta_id);
         $consulta->update($req->all());
     
-       /* $consulta = DB::table('consultas')->join('pacientes', function (JoinClause $join){
-            $join->on('paciente_id', '=', 'pacientes.id')
-            ->select('consultas.*', 'pacientes.nome', 'pacientes.sobrenome')
-            ->where('consultas.id', '=', $req->consulta_id);
-        })->get();*/
-
-        //$consulta = DB::table('consultas')->join('pacientes', 'paciente_id', '=', 'pacientes.id')
-        //->select('consultas.*', 'pacientes.nome', 'pacientes.sobrenome')->where('consultas.id', '=', $req->consulta_id)->get();
-
         return response()->json(['consulta' => $consulta, 'paciente' => $consulta->paciente ]);
-    }    
+    }   
+
     /**
      * Show the form for creating a new resource.
      */

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Consulta extends Model
 {
@@ -16,4 +17,10 @@ class Consulta extends Model
     {
         return $this->belongsTo(Paciente::class);
     }
+
+    public function tratamento(): BelongsTo
+    {
+        return $this->belongsTo(Tratamento::class);
+    }
+
 }

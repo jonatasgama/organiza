@@ -9,11 +9,14 @@
 
                 </div>
                 <!-- /.container-fluid -->
+                
+                @include('componentes.modal_editar_criar') 
 
                 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <input type="hidden" name="event_id" id="event_id" value="" />
+                            <input type="hidden" name="id" id="id" value="" />  
                             <input type="hidden" name="consulta_id" id="consulta_id" value="" />                            
                             <div class="modal-body">
                                 <h4>Editar Consulta</h4>
