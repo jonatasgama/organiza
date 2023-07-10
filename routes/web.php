@@ -26,6 +26,7 @@ Route::post('/registrar', [\App\Http\Controllers\Controller::class, 'registrarUs
 Route::post('/login', [\App\Http\Controllers\Controller::class, 'login'])->name('login');
 Route::get('/usuario/create', [\App\Http\Controllers\UsuarioController::class, 'create'])->name('usuario.create');
 Route::post('/usuario', [\App\Http\Controllers\UsuarioController::class, 'store'])->name('usuario.store');
+//Route::get('/send-mail', [\App\Http\Controllers\EmailController::class, 'index']);
 
 Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::get('/home', [\App\Http\Controllers\Controller::class, 'home'])->name('home');

@@ -490,6 +490,7 @@
                 $('#a_pagamento_id').val(calEvent.pagamento_id);
                 $('#a_pagamento').val(calEvent.pagamento);
                 $('#atualizaConsulta').modal();
+                calEvent.pagamento == "realizado" ? document.getElementById('a_pagamento').setAttribute("disabled", true) : document.getElementById('a_pagamento').removeAttribute("disabled");
                 console.log(calEvent);
             }            
         });
