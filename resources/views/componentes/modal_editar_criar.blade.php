@@ -5,7 +5,6 @@
             @csrf
             <div class="modal-content">
             <input type="hidden" name="id" id="id" value="" />
-                <input type="hidden" name="event_id" id="event_id" value="" />
                 <input type="hidden" name="paciente_id" id="paciente_id" value="{{ $paciente->id ?? old('paciente_id') }}" />                            
                 <div class="modal-body">
                     <h4>Consulta</h4>

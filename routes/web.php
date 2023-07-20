@@ -7,6 +7,7 @@ use App\Http\Controllers\TratamentoController;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ConsultaController;
+use App\Mail\NotificaConsulta;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,11 @@ Route::post('/login', [\App\Http\Controllers\Controller::class, 'login'])->name(
 Route::get('/usuario/create', [\App\Http\Controllers\UsuarioController::class, 'create'])->name('usuario.create');
 Route::post('/usuario', [\App\Http\Controllers\UsuarioController::class, 'store'])->name('usuario.store');
 //Route::get('/send-mail', [\App\Http\Controllers\EmailController::class, 'index']);
+Route::get('/cancela-consulta/{id}', [\App\Http\Controllers\ConsultaController::class, 'cancelaConsultaEmail'])->name('cancela.consulta.email');
+Route::delete('/cancela-consulta/{id}', [\App\Http\Controllers\ConsultaController::class, 'cancelaConsulta'])->name('cancela.consulta');
+Route::get('email', function(){
+    return new NotificaConsulta();
+});
 
 Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::get('/home', [\App\Http\Controllers\Controller::class, 'home'])->name('home');
@@ -37,6 +43,7 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::resource('pagamento', PagamentoController::class);
     Route::resource('paciente', PacienteController::class);
     Route::resource('consulta', ConsultaController::class);
+    Route::get('dash', [\App\Http\Controllers\ConsultaController::class, 'dash'])->name('consulta.dash');
     Route::post('/consulta-ajax', [\App\Http\Controllers\ConsultaController::class, 'ajaxUpdate'])->name('consulta.ajaxUpdate');
     Route::post('/procurar-paciente', [\App\Http\Controllers\PacienteController::class, 'procurar'])->name('paciente.procurar');
 });

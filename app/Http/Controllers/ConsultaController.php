@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Consulta;
 use App\Models\Tratamento;
 use App\Models\Pagamento;
+use App\Models\Paciente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
+use Mail;
+use App\Mail\NotificaConsulta;
 
 class ConsultaController extends Controller
 {
@@ -20,6 +23,16 @@ class ConsultaController extends Controller
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
         return view('consultas', ['consultas' => $consultas, 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos]);
+    }
+
+    public function dash(Request $req)
+    {
+        $receita = DB::scalar("select sum(t.valor) as receita from tratamentos t inner join consultas c on t.id = c.tratamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'");
+        $consultas_realizadas = DB::scalar("select count(id) as consultas_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'realizado'");
+        $consultas_agendadas = DB::scalar("select count(id) as consultas_agendadas from consultas where date(inicio_consulta) > date(now())");
+        $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'pendente'");
+
+        return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas ]);
     }
 
     public function ajaxUpdate(Request $req)
@@ -62,7 +75,16 @@ class ConsultaController extends Controller
 
         $msg = $resultado == true ? 'Consulta agendada com sucesso.' : 'Ocorreu algum erro, consulta não agendada.';
         $alert = $resultado == true ? 'success' : 'danger';
-        //return view('cadastra_paciente', [ 'msg' => $msg, 'alert' => $alert, 'funcao' => 'Cadastrar' ]);  
+        if($resultado){
+            $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
+            $emailData = [
+                'assunto' => '',
+                'title' => 'Consulta agendada.',
+                'body' => "Olá, $paciente->nome sua consulta foi agendada para o dia ".date("d/m/Y", strtotime($req->inicio_consulta)). " às " .date("H:i", strtotime($req->inicio_consulta)). " horas.",
+            ];
+    
+            Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
+        } 
         return redirect()->route('paciente.show', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert);        
     }
 
@@ -93,6 +115,20 @@ class ConsultaController extends Controller
 
         $msg = $resultado == true ? 'Consulta atualizada com sucesso.' : 'Ocorreu algum erro, consulta não atualizada.';
         $alert = $resultado == true ? 'success' : 'danger';
+        if($resultado){
+            $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
+            $emailData = [
+                'id' => $id,
+                'assunto' => 'Consulta reagendada',
+                'title' => 'Consulta reagendada.',
+                'body' => "Olá, $paciente->nome sua consulta foi reagendada para o dia ".date("d/m/Y", strtotime($req->inicio_consulta)). " às " .date("H:i", strtotime($req->inicio_consulta)). " horas.",
+            ];
+    
+            Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
+        }         
+        if($req->event_id){
+            return redirect()->route('consulta.index', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert);    
+        }
         return redirect()->route('paciente.show', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert);            
     }
 
@@ -101,10 +137,46 @@ class ConsultaController extends Controller
      */
     public function destroy(Request $req, string $id)
     {
+        $consulta = Consulta::find($id);
         $deletado = Consulta::find($id)->delete();
 
         $msg = $deletado == true ? 'Consulta cancelada com sucesso.' : 'Ocorreu algum erro, consulta não cancelada.';
         $alert = $deletado == true ? 'success' : 'danger';
+        if($deletado){
+            $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
+            $emailData = [
+                'assunto' => 'Consulta cancelada',
+                'title' => 'Consulta cancelada.',
+                'body' => "Olá, $paciente->nome sua consulta para o dia ".date("d/m/Y", strtotime($consulta->inicio_consulta)). " às " .date("H:i", strtotime($consulta->inicio_consulta)). " horas foi cancelada.",
+            ];
+    
+            Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
+        } 
         return redirect()->route('paciente.show', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert); 
     }
+
+    public function cancelaConsultaEmail($id){
+        $consulta = Consulta::with(['paciente'])->find($id);
+        return view('cancela_consulta_email', ['consulta' => $consulta ]);
+    }
+
+    public function cancelaConsulta(Request $req, string $id)
+    {
+        $consulta = Consulta::find($id);
+        $deletado = Consulta::find($id)->delete();
+
+        $msg = $deletado == true ? 'Consulta cancelada com sucesso.' : 'Ocorreu algum erro, consulta não cancelada.';
+        $alert = $deletado == true ? 'success' : 'danger';
+        if($deletado){
+            $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
+            $emailData = [
+                'assunto' => 'Consulta cancelada',
+                'title' => 'Consulta cancelada.',
+                'body' => "Olá, $paciente->nome sua consulta para o dia ".date("d/m/Y", strtotime($consulta->inicio_consulta)). " às " .date("H:i", strtotime($consulta->inicio_consulta)). " horas foi cancelada.",
+            ];
+    
+            Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
+        } 
+        return view('cancela_consulta_email', ['msg' => $msg ]);
+    }    
 }

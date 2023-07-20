@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href=" {{ route('consulta.dash') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -475,6 +475,7 @@
                     tratamento_id : '{{ $consulta->tratamento_id }}',
                     pagamento_id : '{{ $consulta->pagamento_id }}',
                     pagamento : '{{ $consulta->pagamento }}',
+                    paciente_id : '{{ $consulta->paciente->id }}',
                     @if ($consulta->fim_consulta)
                             end: '{{ $consulta->fim_consulta }}',
                     @endif
@@ -483,19 +484,22 @@
             ],
             eventClick: function(calEvent, jsEvent, view) {
                 $('#event_id').val(calEvent._id);
-                $('#consulta_id').val(calEvent.id);
+                $('#a_id').val(calEvent.id);
                 $('#a_inicio_consulta').val(moment(calEvent.start).format('YYYY-MM-DD HH:mm:ss'));
                 $('#a_fim_consulta').val(moment(calEvent.end).format('YYYY-MM-DD HH:mm:ss'));
                 $('#a_tratamento_id').val(calEvent.tratamento_id);
+                $('#a_paciente_id').val(calEvent.paciente_id);
                 $('#a_pagamento_id').val(calEvent.pagamento_id);
                 $('#a_pagamento').val(calEvent.pagamento);
                 $('#atualizaConsulta').modal();
                 calEvent.pagamento == "realizado" ? document.getElementById('a_pagamento').setAttribute("disabled", true) : document.getElementById('a_pagamento').removeAttribute("disabled");
+                document.getElementById('form_atualiza').setAttribute("action", "/consulta/"+calEvent.id);
                 console.log(calEvent);
             }            
         });
    
-        $('#consulta_update').click(function(e) {
+        /*
+        $('#').click(function(e) {
             e.preventDefault();
             var data = {
                 _token: '{{ csrf_token() }}',
@@ -523,7 +527,8 @@
 
                 $('#atualizaConsulta').modal('hide');
             });
-        });        
+        });
+        */ 
     });
         
     </script>
