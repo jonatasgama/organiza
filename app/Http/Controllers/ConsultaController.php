@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
 use Mail;
 use App\Mail\NotificaConsulta;
+use Illuminate\Support\Arr;
+
 
 class ConsultaController extends Controller
 {
@@ -31,8 +33,34 @@ class ConsultaController extends Controller
         $consultas_realizadas = DB::scalar("select count(id) as consultas_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'realizado'");
         $consultas_agendadas = DB::scalar("select count(id) as consultas_agendadas from consultas where date(inicio_consulta) > date(now())");
         $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'pendente'");
+        $forma_pagamentos = DB::select("select count(p.forma_pagamento) as qtd,p.forma_pagamento from consultas c inner join pagamentos p on p.id = c.pagamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'
+        group by p.forma_pagamento");
+        $receita_por_mes = DB::select("select sum(t.valor) as total,  substr(monthname(c.inicio_consulta), 1, 3) as mes from consultas c join tratamentos t on t.id = c.tratamento_id where c.pagamento = 'realizado' group by mes
+        order by mes desc");
 
-        return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas ]);
+        foreach($forma_pagamentos as $pg){
+            $pagamentos['qtd'][] = $pg->qtd;
+            $pagamentos['forma_pagamento'][] = $pg->forma_pagamento;
+        }
+        $pie = json_encode($pagamentos);
+
+        foreach($receita_por_mes as $rm){
+            $receita_mes['total'][] = $rm->total;
+            $receita_mes['mes'][] = $rm->mes;
+        }
+        $chart_area = json_encode($receita_mes);
+
+        return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas, 'pie' => $pie, 'chart_area' => $chart_area ]);
+    }
+
+    public function graficoPie(){
+        $forma_pagamentos = DB::select("select count(p.forma_pagamento) as qtd,p.forma_pagamento from consultas c inner join pagamentos p on p.id = c.pagamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'
+        group by p.forma_pagamento");
+        foreach($forma_pagamentos as $pg){
+            $pagamentos['qtd'][] = $pg->qtd;
+            $pagamentos['forma_pagamento'][] = $pg->forma_pagamento;
+        }        
+        return response()->json($pagamentos);
     }
 
     public function ajaxUpdate(Request $req)
@@ -78,6 +106,7 @@ class ConsultaController extends Controller
         if($resultado){
             $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
             $emailData = [
+                'id' => $resultado->id,
                 'assunto' => '',
                 'title' => 'Consulta agendada.',
                 'body' => "Olá, $paciente->nome sua consulta foi agendada para o dia ".date("d/m/Y", strtotime($req->inicio_consulta)). " às " .date("H:i", strtotime($req->inicio_consulta)). " horas.",
@@ -110,12 +139,15 @@ class ConsultaController extends Controller
     public function update(Request $req)
     {
         $id = $req->id;
-        $resultado = Consulta::find($id);       
+        $resultado = Consulta::find($id);      
+        $envia = date("Y-m-d H:i:s", strtotime($req->inicio_consulta)) != $resultado->inicio_consulta ? true : false; 
         $resultado->update($req->all());
-
+        //dd(date("Y-m-d H:i:s", strtotime($req->inicio_consulta)) == $resultado->inicio_consulta);
+        //dd(date("Y-m-d H:i:s", strtotime($req->inicio_consulta)));
+        //dd($resultado->inicio_consulta);
         $msg = $resultado == true ? 'Consulta atualizada com sucesso.' : 'Ocorreu algum erro, consulta não atualizada.';
         $alert = $resultado == true ? 'success' : 'danger';
-        if($resultado){
+        if($envia){
             $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
             $emailData = [
                 'id' => $id,
