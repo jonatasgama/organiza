@@ -64,7 +64,7 @@ class Controller extends BaseController
             $_SESSION['nome'] = $usuario->nome;
             $_SESSION['email'] = $usuario->email;
 
-            return redirect()->route('usuario.index');
+            return redirect()->route('consulta.index');
 
         }else{
             return redirect()->route('index', [ 'erro' => 1 ]);

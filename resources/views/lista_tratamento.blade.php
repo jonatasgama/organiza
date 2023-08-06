@@ -24,8 +24,6 @@
                                             <th>Tratamento</th>
                                             <th>Valor</th>
                                             <th>Data de cadastro</th>
-                                            <th>Data de atualização</th>
-                                            <th colspan="2">Opções</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -33,8 +31,6 @@
                                             <th>Tratamento</th>
                                             <th>Valor</th>
                                             <th>Data de cadastro</th>
-                                            <th>Data de atualização</th>
-                                            <th colspan="2">Opções</th>
                                         </tr>
                                     </tfoot>
                                     @if(isset($tratamentos))
@@ -44,15 +40,6 @@
                                             <td>{{ $tratamento->tratamento }}</td>
                                             <td>R$ {{ number_format($tratamento->valor, 2, ",", ".") }}</td>
                                             <td>{{ date("d/m/Y", strtotime($tratamento->created_at)) }}</td>
-                                            <td>{{ date("d/m/Y", strtotime($tratamento->updated_at)) }}</td>
-                                            <td><a href="{{ route('tratamento.edit', ['tratamento' => $tratamento->id]) }}" class="btn btn-warning" >Editar</a></td>
-                                            <td>
-                                                <form id="form_{{ $tratamento->id }}" method="post" action="{{ route('tratamento.destroy', ['tratamento' => $tratamento->id]) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <a href="#" class="btn btn-danger" onclick="document.getElementById('form_{{ $tratamento->id }}').submit()">Excluir</a>
-                                                </form>                                                
-                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

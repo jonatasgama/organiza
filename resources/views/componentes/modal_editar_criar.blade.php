@@ -20,18 +20,14 @@
                     Tratamento:
                     <br />
                     <select name="tratamento_id" id="tratamento_id" class="form-control">
-                        <option>--- Selecione um tratamento ---</option>
-
                         @foreach($tratamentos as $tratamento)
-                        <option value="{{ $tratamento->id }}"> {{ $tratamento->tratamento }}</option>
+                        <option value="{{ $tratamento->id }}"> {{ $tratamento->tratamento }} R$ {{ number_format($tratamento->valor, 2, ",", ".") }}</option>
                         @endforeach
                     </select>    
                     
                     Forma de pagamento:
                     <br />
                     <select name="pagamento_id" id="pagamento_id" class="form-control">
-                        <option>--- Selecione uma forma de pagamento ---</option>
-
                         @foreach($pagamentos as $pagamento)
                         <option value="{{ $pagamento->id }}"> {{ $pagamento->forma_pagamento }}</option>
                         @endforeach
@@ -77,8 +73,6 @@
                     Tratamento:
                     <br />
                     <select name="tratamento_id" id="a_tratamento_id" class="form-control">
-                        <option>--- Selecione um tratamento ---</option>
-
                         @foreach($tratamentos as $tratamento)
                         <option value="{{ $tratamento->id }}"> {{ $tratamento->tratamento }} R$ {{ number_format($tratamento->valor, 2, ",", ".") }}</option>
                         @endforeach
@@ -87,8 +81,6 @@
                     Forma de pagamento:
                     <br />
                     <select name="pagamento_id" id="a_pagamento_id" class="form-control">
-                        <option>--- Selecione uma forma de pagamento ---</option>
-
                         @foreach($pagamentos as $pagamento)
                         <option value="{{ $pagamento->id }}"> {{ $pagamento->forma_pagamento }}</option>
                         @endforeach

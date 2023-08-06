@@ -30,7 +30,7 @@ class ConsultaController extends Controller
     public function dash(Request $req)
     {
         $receita = DB::scalar("select sum(t.valor) as receita from tratamentos t inner join consultas c on t.id = c.tratamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'");
-        $consultas_realizadas = DB::scalar("select count(id) as consultas_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'realizado'");
+        $consultas_realizadas = DB::scalar("select count(id) as consultas_realizadas from consultas where monthname(inicio_consulta) = monthname(now()) and pagamento = 'realizado'");
         $consultas_agendadas = DB::scalar("select count(id) as consultas_agendadas from consultas where date(inicio_consulta) > date(now())");
         $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'pendente'");
         $forma_pagamentos = DB::select("select count(p.forma_pagamento) as qtd,p.forma_pagamento from consultas c inner join pagamentos p on p.id = c.pagamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'
@@ -38,17 +38,25 @@ class ConsultaController extends Controller
         $receita_por_mes = DB::select("select sum(t.valor) as total,  substr(monthname(c.inicio_consulta), 1, 3) as mes from consultas c join tratamentos t on t.id = c.tratamento_id where c.pagamento = 'realizado' group by mes
         order by mes desc");
 
-        foreach($forma_pagamentos as $pg){
-            $pagamentos['qtd'][] = $pg->qtd;
-            $pagamentos['forma_pagamento'][] = $pg->forma_pagamento;
+        if($forma_pagamentos){
+            foreach($forma_pagamentos as $pg){
+                $pagamentos['qtd'][] = $pg->qtd;
+                $pagamentos['forma_pagamento'][] = $pg->forma_pagamento;
+            }
+            $pie = json_encode($pagamentos);
+        }else{
+            $pie = '';
         }
-        $pie = json_encode($pagamentos);
 
-        foreach($receita_por_mes as $rm){
-            $receita_mes['total'][] = $rm->total;
-            $receita_mes['mes'][] = $rm->mes;
+        if($receita_por_mes){
+            foreach($receita_por_mes as $rm){
+                $receita_mes['total'][] = $rm->total;
+                $receita_mes['mes'][] = $rm->mes;
+            }
+            $chart_area = json_encode($receita_mes);
+        }else{
+            $chart_area = '';
         }
-        $chart_area = json_encode($receita_mes);
 
         return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas, 'pie' => $pie, 'chart_area' => $chart_area ]);
     }

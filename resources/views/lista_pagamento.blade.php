@@ -23,16 +23,12 @@
                                         <tr>
                                             <th>Forma de pagamento</th>
                                             <th>Data de cadastro</th>
-                                            <th>Data de atualização</th>
-                                            <th colspan="2">Opções</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
                                             <th>Forma de pagamento</th>
                                             <th>Data de cadastro</th>
-                                            <th>Data de atualização</th>
-                                            <th colspan="2">Opções</th>
                                         </tr>
                                     </tfoot>
                                     @if(isset($pagamentos))
@@ -41,15 +37,6 @@
                                         <tr>
                                             <td>{{ $pagamento->forma_pagamento }}</td>
                                             <td>{{ date("d/m/Y", strtotime($pagamento->created_at)) }}</td>
-                                            <td>{{ date("d/m/Y", strtotime($pagamento->updated_at)) }}</td>
-                                            <td><a href="{{ route('pagamento.edit', ['pagamento' => $pagamento->id]) }}" class="btn btn-warning" >Editar</a></td>
-                                            <td>
-                                                <form id="form_{{ $pagamento->id }}" method="post" action="{{ route('pagamento.destroy', ['pagamento' => $pagamento->id]) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <a href="#" class="btn btn-danger" onclick="document.getElementById('form_{{ $pagamento->id }}').submit()">Excluir</a>
-                                                </form>                                                
-                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

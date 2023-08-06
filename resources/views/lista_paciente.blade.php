@@ -49,14 +49,6 @@
                                             <td>{{ $paciente->telefone }}</td>
                                             <td>{{ $paciente->email }}</td>
                                             <td>{{ date("d/m/Y", strtotime($paciente->dt_nascimento)) }}</td>
-                                            <!--<td><a href="{{ route('paciente.edit', ['paciente' => $paciente->id]) }}" class="btn btn-info">Editar</a></td>-->
-                                            <td>
-                                                <form id="form_{{ $paciente->id }}" method="post" action="{{ route('paciente.destroy', ['paciente' => $paciente->id]) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <a href="#" class="btn btn-danger" onclick="document.getElementById('form_{{ $paciente->id }}').submit()">Excluir</a>
-                                                </form>                                                
-                                            </td>
                                             <td><a href="{{ route('paciente.show', ['paciente' => $paciente->id]) }}" class="btn btn-info">Visualizar</a></td>
                                         </tr>
                                         
