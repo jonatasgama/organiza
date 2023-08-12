@@ -7,6 +7,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
