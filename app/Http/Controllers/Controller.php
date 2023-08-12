@@ -56,6 +56,7 @@ class Controller extends BaseController
         $email = $req->get('email');
         $senha = $req->get('senha');
 
+        DB::select("SET SESSION interactive_timeout = 28800");
         $usuario = $usuario->where('email', $email)->where('senha', $senha)->get()->first();
 
         if(isset($usuario->nome)){
