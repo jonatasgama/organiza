@@ -7,6 +7,7 @@ use App\Http\Controllers\TratamentoController;
 use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\GastoController;
 use App\Mail\NotificaConsulta;
 
 /*
@@ -47,4 +48,5 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::get('dash-pie', [\App\Http\Controllers\ConsultaController::class, 'graficoPie'])->name('consulta.dashPie');
     Route::post('/consulta-ajax', [\App\Http\Controllers\ConsultaController::class, 'ajaxUpdate'])->name('consulta.ajaxUpdate');
     Route::post('/procurar-paciente', [\App\Http\Controllers\PacienteController::class, 'procurar'])->name('paciente.procurar');
+    Route::resource('gasto', GastoController::class);
 });

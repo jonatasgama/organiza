@@ -110,6 +110,22 @@
                 </div>
             </li>
 
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gastos"
+                    aria-expanded="true" aria-controls="gastos">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Gastos</span>
+                </a>
+                <div id="gastos" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('gasto.index') }}">Listar</a>
+                        <a class="collapse-item" href="{{ route('gasto.create') }}">Cadastrar</a>
+                    </div>
+                </div>
+            </li>            
+
             <!-- Divider
             <hr class="sidebar-divider">
 
