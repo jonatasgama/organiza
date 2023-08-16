@@ -52,7 +52,7 @@ class SaidaController extends Controller
     public function pesquisarItemPorMes(Request $req){
         //$itens = Saida::with(['gasto'])->where('gasto_id', $req->gasto_id)->whereBetween('data_saida', [$req->data_inicio, $req->data_fim])->get();
         $gastos = Gasto::all();
-        $itens = DB::select("SELECT g.item , monthname(s.data_saida) as mes, s.data_saida, s.quantidade, s.valor_unidade, (s.quantidade * s.valor_unidade) as total FROM saidas s INNER JOIN gastos g on g.id = s.gasto_id WHERE s.data_saida BETWEEN :inicio AND :fim AND g.id = :item ORDER BY mes, g.item", [ 'inicio' => $req->data_inicio, 'fim' => $req->data_fim, 'item' => $req->gasto_id ]);
+        $itens = DB::select("SELECT g.item , monthname(s.data_saida) as mes, SUM(s.quantidade) as quantidade, s.valor_unidade, (SUM(s.quantidade) * s.valor_unidade) as total FROM saidas s INNER JOIN gastos g on g.id = s.gasto_id WHERE s.data_saida BETWEEN :inicio AND :fim AND g.id = :item GROUP BY g.item, mes, s.valor_unidade", [ 'inicio' => $req->data_inicio, 'fim' => $req->data_fim, 'item' => $req->gasto_id ]);
         return view('itens_por_mes', [ 'gastos' => $gastos, 'itens' => $itens ]);
     }
 }
