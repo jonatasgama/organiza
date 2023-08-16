@@ -66,13 +66,6 @@
                                             <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
                                         </a> -->
                                     </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="#">Esqueci minha senha</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('usuario.create') }}">Criar conta</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
