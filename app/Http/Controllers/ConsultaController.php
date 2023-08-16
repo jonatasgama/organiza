@@ -150,9 +150,6 @@ class ConsultaController extends Controller
         $resultado = Consulta::find($id);      
         $envia = date("Y-m-d H:i:s", strtotime($req->inicio_consulta)) != $resultado->inicio_consulta ? true : false; 
         $resultado->update($req->all());
-        //dd(date("Y-m-d H:i:s", strtotime($req->inicio_consulta)) == $resultado->inicio_consulta);
-        //dd(date("Y-m-d H:i:s", strtotime($req->inicio_consulta)));
-        //dd($resultado->inicio_consulta);
         $msg = $resultado == true ? 'Consulta atualizada com sucesso.' : 'Ocorreu algum erro, consulta não atualizada.';
         $alert = $resultado == true ? 'success' : 'danger';
         if($envia){

@@ -8,6 +8,7 @@ use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\GastoController;
+use App\Http\Controllers\SaidaController;
 use App\Mail\NotificaConsulta;
 
 /*
@@ -49,4 +50,7 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::post('/consulta-ajax', [\App\Http\Controllers\ConsultaController::class, 'ajaxUpdate'])->name('consulta.ajaxUpdate');
     Route::post('/procurar-paciente', [\App\Http\Controllers\PacienteController::class, 'procurar'])->name('paciente.procurar');
     Route::resource('gasto', GastoController::class);
+    Route::resource('saida', SaidaController::class);
+    Route::post('/pesquisar-item-mes', [\App\Http\Controllers\SaidaController::class, 'pesquisarItemPorMes'])->name('saida.pesquisaritemmes');
+    Route::get('/item-mes', [\App\Http\Controllers\SaidaController::class, 'itemPorMes'])->name('saida.itemmes');
 });

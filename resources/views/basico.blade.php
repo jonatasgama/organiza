@@ -110,6 +110,14 @@
                 </div>
             </li>
 
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Financeiro
+            </div>            
+
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gastos"
@@ -122,9 +130,28 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('gasto.index') }}">Listar</a>
                         <a class="collapse-item" href="{{ route('gasto.create') }}">Cadastrar</a>
+                        <a class="collapse-item" href="{{ route('saida.create') }}">Registrar saída</a>
                     </div>
                 </div>
-            </li>            
+            </li>        
+            
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#relatorios"
+                    aria-expanded="true" aria-controls="relatorios">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Relatórios</span>
+                </a>
+                <div id="relatorios" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('saida.itemmes') }}">Item por mês</a>
+                        <a class="collapse-item" href="{{ route('gasto.index') }}">Gastos por mês</a>
+                        <a class="collapse-item" href="{{ route('gasto.create') }}">Gastos x Receita</a>
+                        <a class="collapse-item" href="{{ route('saida.create') }}">Registrar saída</a>
+                    </div>
+                </div>
+            </li>             
 
             <!-- Divider
             <hr class="sidebar-divider">
