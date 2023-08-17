@@ -7,6 +7,7 @@ use App\Models\Consulta;
 use App\Models\Tratamento;
 use App\Models\Pagamento;
 use App\Models\Paciente;
+use App\Models\Financeiro;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\JoinClause;
 use Mail;
@@ -108,6 +109,16 @@ class ConsultaController extends Controller
         $req->validate($regras, $feedback);
 
         $resultado = Consulta::create($req->all());
+        $tratamento = Tratamento::find($req->tratamento_id);
+        //insere informações na tabela de controle financeiro
+        $financeiro = Financeiro::create([
+            'data_registro' => $req->inicio_consulta,
+            'tratamento_id' => $req->tratamento_id,
+            'pagamento_id' => $req->pagamento_id,
+            'consulta_id' => $resultado->id,
+            'pagamento' => $req->pagamento,
+            'valor_tratamento' => $tratamento->valor
+        ]);
 
         $msg = $resultado == true ? 'Consulta agendada com sucesso.' : 'Ocorreu algum erro, consulta não agendada.';
         $alert = $resultado == true ? 'success' : 'danger';
@@ -148,8 +159,20 @@ class ConsultaController extends Controller
     {
         $id = $req->id;
         $resultado = Consulta::find($id);      
+        //se não teve alteração na data da consulta, não envio e-mail para o cliente, utilizando a variável 'envia' 
         $envia = date("Y-m-d H:i:s", strtotime($req->inicio_consulta)) != $resultado->inicio_consulta ? true : false; 
+
         $resultado->update($req->all());
+        $tratamento = Tratamento::find($req->tratamento_id);
+        //atualiza as informações na tabela de controle financeiro
+        Financeiro::where('consulta_id', $id)
+            ->update([
+                'data_registro' => $req->inicio_consulta,
+                'tratamento_id' => $req->tratamento_id,
+                'pagamento_id' => $req->pagamento_id,
+                'pagamento' => $req->pagamento,
+                'valor_tratamento' => $tratamento->valor           
+            ]);
         $msg = $resultado == true ? 'Consulta atualizada com sucesso.' : 'Ocorreu algum erro, consulta não atualizada.';
         $alert = $resultado == true ? 'success' : 'danger';
         if($envia){
@@ -163,9 +186,11 @@ class ConsultaController extends Controller
     
             Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
         }         
+        //se a atualização veio pelo form da tela de consultas/calendário, então volto pra essa rota
         if($req->event_id){
-            return redirect()->route('consulta.index', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert);    
+            return redirect()->route('consulta.index')->with('msg', $msg)->with('alert', $alert);    
         }
+        //caso a atualização tenha vindo pela tela de cadastro do cliente, então volto para essa rota
         return redirect()->route('paciente.show', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert);            
     }
 
@@ -174,6 +199,10 @@ class ConsultaController extends Controller
      */
     public function destroy(Request $req, string $id)
     {
+        /**
+         * a variável 'consulta' é utilizada para popular a data e horário da consulta cancelada no corpo do e-mail
+         * na variável 'deletado' essas informações já não são armazenadas pois retorna sucesso ou insucesso
+        */
         $consulta = Consulta::find($id);
         $deletado = Consulta::find($id)->delete();
 
@@ -192,13 +221,19 @@ class ConsultaController extends Controller
         return redirect()->route('paciente.show', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert); 
     }
 
+    //função onde o cliente confirma se deseja cancelar a consulta
     public function cancelaConsultaEmail($id){
         $consulta = Consulta::with(['paciente'])->find($id);
         return view('cancela_consulta_email', ['consulta' => $consulta ]);
     }
 
+    //função que cancela a consulta selecionada pelo cliente
     public function cancelaConsulta(Request $req, string $id)
     {
+        /**
+         * a variável 'consulta' é utilizada para popular a data e horário da consulta cancelada no corpo do e-mail
+         * na variável 'deletado' essas informações já não são armazenadas pois retorna sucesso ou insucesso
+        */
         $consulta = Consulta::find($id);
         $deletado = Consulta::find($id)->delete();
 

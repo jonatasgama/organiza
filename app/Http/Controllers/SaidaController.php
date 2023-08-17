@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Gasto;
 use App\Models\Saida;
+use App\Models\Financeiro;
 use Illuminate\Support\Facades\DB;
 
 class SaidaController extends Controller
@@ -38,6 +39,13 @@ class SaidaController extends Controller
         $req->validate($regras, $feedback);
 
         $resultado = Saida::create($req->all());
+        //insere informações na tabela de controle financeiro
+        $financeiro = Financeiro::create([
+            'data_registro' => $req->data_saida,
+            'gasto_id' => $req->gasto_id,
+            'quantidade' => $req->quantidade,
+            'valor_unidade' => $valor_unidade->valor
+        ]);        
 
         $msg = $resultado == true ? 'Item cadastrado com sucesso.' : 'Ocorreu algum erro, item não cadastrado.';
         $alert = $resultado == true ? 'success' : 'danger'; 
@@ -55,4 +63,13 @@ class SaidaController extends Controller
         $itens = DB::select("SELECT g.item , monthname(s.data_saida) as mes, SUM(s.quantidade) as quantidade, s.valor_unidade, (SUM(s.quantidade) * s.valor_unidade) as total FROM saidas s INNER JOIN gastos g on g.id = s.gasto_id WHERE s.data_saida BETWEEN :inicio AND :fim AND g.id = :item GROUP BY g.item, mes, s.valor_unidade", [ 'inicio' => $req->data_inicio, 'fim' => $req->data_fim, 'item' => $req->gasto_id ]);
         return view('itens_por_mes', [ 'gastos' => $gastos, 'itens' => $itens ]);
     }
+
+    public function gastosPorMes(Request $req){
+        return view('gastos_por_mes');
+    }    
+
+    public function pesquisarGastosPorMes(Request $req){
+        $itens = DB::select("SELECT g.item , monthname(s.data_saida) as mes, SUM(s.quantidade) as quantidade, s.valor_unidade, (SUM(s.quantidade) * s.valor_unidade) as total FROM saidas s INNER JOIN gastos g on g.id = s.gasto_id WHERE s.data_saida BETWEEN :inicio AND :fim AND g.id = :item GROUP BY g.item, mes, s.valor_unidade", [ 'inicio' => $req->data_inicio, 'fim' => $req->data_fim, 'item' => $req->gasto_id ]);
+        return view('gastos_por_mes', [ 'itens' => $itens ]);
+    }    
 }

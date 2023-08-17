@@ -29,7 +29,6 @@ Route::post('/registrar', [\App\Http\Controllers\Controller::class, 'registrarUs
 Route::post('/login', [\App\Http\Controllers\Controller::class, 'login'])->name('login');
 Route::get('/usuario/create', [\App\Http\Controllers\UsuarioController::class, 'create'])->name('usuario.create');
 Route::post('/usuario', [\App\Http\Controllers\UsuarioController::class, 'store'])->name('usuario.store');
-//Route::get('/send-mail', [\App\Http\Controllers\EmailController::class, 'index']);
 Route::get('/cancela-consulta/{id}', [\App\Http\Controllers\ConsultaController::class, 'cancelaConsultaEmail'])->name('cancela.consulta.email');
 Route::delete('/cancela-consulta/{id}', [\App\Http\Controllers\ConsultaController::class, 'cancelaConsulta'])->name('cancela.consulta');
 Route::get('email', function(){
@@ -53,4 +52,6 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::resource('saida', SaidaController::class);
     Route::post('/pesquisar-item-mes', [\App\Http\Controllers\SaidaController::class, 'pesquisarItemPorMes'])->name('saida.pesquisaritemmes');
     Route::get('/item-mes', [\App\Http\Controllers\SaidaController::class, 'itemPorMes'])->name('saida.itemmes');
+    Route::post('/pesquisar-gastos-mes', [\App\Http\Controllers\SaidaController::class, 'pesquisargastosPorMes'])->name('saida.pesquisargastosmes');
+    Route::get('/gastos-mes', [\App\Http\Controllers\SaidaController::class, 'gastosPorMes'])->name('saida.gastosmes');
 });

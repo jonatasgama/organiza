@@ -146,9 +146,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('saida.itemmes') }}">Item por mês</a>
-                        <a class="collapse-item" href="{{ route('gasto.index') }}">Gastos por mês</a>
+                        <a class="collapse-item" href="{{ route('saida.gastosmes') }}">Gastos por mês</a>
                         <a class="collapse-item" href="{{ route('gasto.create') }}">Gastos x Receita</a>
-                        <a class="collapse-item" href="{{ route('saida.create') }}">Registrar saída</a>
                     </div>
                 </div>
             </li>             
