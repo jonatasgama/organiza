@@ -110,6 +110,7 @@ class ConsultaController extends Controller
 
         $resultado = Consulta::create($req->all());
         $tratamento = Tratamento::find($req->tratamento_id);
+        $valor_tratamento = $tratamento->valor;
         //insere informações na tabela de controle financeiro
         $financeiro = Financeiro::create([
             'data_registro' => $req->inicio_consulta,
@@ -117,7 +118,7 @@ class ConsultaController extends Controller
             'pagamento_id' => $req->pagamento_id,
             'consulta_id' => $resultado->id,
             'pagamento' => $req->pagamento,
-            'valor_tratamento' => $tratamento->valor
+            'valor_tratamento' => $valor_tratamento
         ]);
 
         $msg = $resultado == true ? 'Consulta agendada com sucesso.' : 'Ocorreu algum erro, consulta não agendada.';
@@ -164,6 +165,7 @@ class ConsultaController extends Controller
 
         $resultado->update($req->all());
         $tratamento = Tratamento::find($req->tratamento_id);
+        $valor_tratamento = $tratamento->valor;
         //atualiza as informações na tabela de controle financeiro
         Financeiro::where('consulta_id', $id)
             ->update([
@@ -171,7 +173,7 @@ class ConsultaController extends Controller
                 'tratamento_id' => $req->tratamento_id,
                 'pagamento_id' => $req->pagamento_id,
                 'pagamento' => $req->pagamento,
-                'valor_tratamento' => $tratamento->valor           
+                'valor_tratamento' => $valor_tratamento          
             ]);
         $msg = $resultado == true ? 'Consulta atualizada com sucesso.' : 'Ocorreu algum erro, consulta não atualizada.';
         $alert = $resultado == true ? 'success' : 'danger';
