@@ -41,7 +41,7 @@
                                     <div class="col-sm-4">
                                         Data de saída:
                                         <input type="date" class="form-control" name="data_saida" id="data_saida"
-                                            placeholder="" value="{{ $gasto->data_saida ?? old('data_saida') }}" required>
+                                            placeholder="" value="{{ $gasto->data_saida ?? old('data_saida') }}" max="{{ date('Y-m-d') }}" required>
                                             {{ $errors->has('data_saida') ? $errors->first('data_saida') : '' }}
                                     </div>
                                     

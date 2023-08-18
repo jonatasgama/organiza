@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pagamento_id')->nullable();
             $table->unsignedBigInteger('consulta_id')->nullable();
             $table->string('pagamento', 255)->default('N/A');
-            $table->decimal('valor_tratamento', $precision = 10, $scale = 2);
+            $table->decimal('valor_tratamento', $precision = 10, $scale = 2)->default(0.0);
             $table->unsignedBigInteger('gasto_id')->nullable();
             $table->integer('quantidade')->nullable();
             $table->decimal('valor_unidade', $precision = 10, $scale = 2)->nullable();
