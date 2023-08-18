@@ -118,7 +118,9 @@ class ConsultaController extends Controller
             'pagamento_id' => $req->pagamento_id,
             'consulta_id' => $resultado->id,
             'pagamento' => $req->pagamento,
-            'valor_tratamento' => $valor_tratamento
+            'valor_tratamento' => $valor_tratamento,
+            'quantidade' => 0,
+            'valor_unidade' => 0
         ]);
 
         $msg = $resultado == true ? 'Consulta agendada com sucesso.' : 'Ocorreu algum erro, consulta não agendada.';
