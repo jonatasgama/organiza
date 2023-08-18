@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tratamento_id')->nullable();
             $table->unsignedBigInteger('pagamento_id')->nullable();
             $table->unsignedBigInteger('consulta_id')->nullable();
-            $table->enum('pagamento', ['realizado','pendente'])->nullable();
+            $table->string('pagamento', 255)->default('N/A');
             $table->decimal('valor_tratamento', $precision = 10, $scale = 2);
             $table->unsignedBigInteger('gasto_id')->nullable();
             $table->integer('quantidade')->nullable();
