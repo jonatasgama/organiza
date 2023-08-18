@@ -69,7 +69,16 @@ class SaidaController extends Controller
     }    
 
     public function pesquisarGastosPorMes(Request $req){
-        $itens = DB::select("SELECT g.item , monthname(s.data_saida) as mes, SUM(s.quantidade) as quantidade, s.valor_unidade, (SUM(s.quantidade) * s.valor_unidade) as total FROM saidas s INNER JOIN gastos g on g.id = s.gasto_id WHERE s.data_saida BETWEEN :inicio AND :fim AND g.id = :item GROUP BY g.item, mes, s.valor_unidade", [ 'inicio' => $req->data_inicio, 'fim' => $req->data_fim, 'item' => $req->gasto_id ]);
+        $itens = DB::select("SELECT g.item , monthname(s.data_saida) as mes, SUM(s.quantidade) as quantidade, s.valor_unidade, (SUM(s.quantidade) * s.valor_unidade) as total FROM saidas s INNER JOIN gastos g on g.id = s.gasto_id WHERE s.data_saida BETWEEN :inicio AND :fim GROUP BY g.item, mes, s.valor_unidade order by mes", [ 'inicio' => $req->data_inicio, 'fim' => $req->data_fim ]);
         return view('gastos_por_mes', [ 'itens' => $itens ]);
     }    
+
+    public function gastosEReceita(Request $req){
+        return view('gastos_e_receita');
+    }     
+
+    public function pesquisarGastoseReceitas(Request $req){
+        $itens = DB::select("select monthname(data_registro) as mes, sum(valor_tratamento) as receita, (sum(quantidade) * sum(valor_unidade)) as saida, (sum(valor_tratamento) - (sum(quantidade) * sum(valor_unidade))) as total from financeiros where pagamento != 'pendente' and data_registro BETWEEN :inicio AND :fim group by mes order by mes desc", [ 'inicio' => $req->data_inicio, 'fim' => $req->data_fim ]);
+        return view('gastos_e_receita', [ 'itens' => $itens ]);
+    }     
 }

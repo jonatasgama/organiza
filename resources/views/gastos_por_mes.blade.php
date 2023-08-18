@@ -18,19 +18,19 @@
                     @endif
                     <div class="col-lg-12">
                         <div class="mt-5 mb-5">
-                            <form class="user" action="{{ route('saida.pesquisaritemmes') }}" method="post">
+                            <form class="user" action="{{ route('saida.pesquisargastosmes') }}" method="post">
                                 @csrf
                                 <div class="form-group row">
 
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         Data início:
-                                        <input type="date" class="form-control" name="data_inicio" id="data_inicio" required>
+                                        <input type="date" class="form-control" name="data_inicio" id="data_inicio" max="{{ date('Y-m-d') }}" required>
                                             {{ $errors->has('data_inicio') ? $errors->first('data_inicio') : '' }}
                                     </div>  
                                                                       
                                     <div class="col-sm-6">
                                         Data fim:
-                                        <input type="date" class="form-control" name="data_fim" id="data_fim" required>
+                                        <input type="date" class="form-control" name="data_fim" id="data_fim" max="{{ date('Y-m-d') }}" required>
                                             {{ $errors->has('data_fim') ? $errors->first('data_fim') : '' }}
                                     </div>
                                     

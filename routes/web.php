@@ -52,6 +52,8 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::resource('saida', SaidaController::class);
     Route::post('/pesquisar-item-mes', [\App\Http\Controllers\SaidaController::class, 'pesquisarItemPorMes'])->name('saida.pesquisaritemmes');
     Route::get('/item-mes', [\App\Http\Controllers\SaidaController::class, 'itemPorMes'])->name('saida.itemmes');
-    Route::post('/pesquisar-gastos-mes', [\App\Http\Controllers\SaidaController::class, 'pesquisargastosPorMes'])->name('saida.pesquisargastosmes');
+    Route::post('/pesquisar-gastos-mes', [\App\Http\Controllers\SaidaController::class, 'pesquisarGastosPorMes'])->name('saida.pesquisargastosmes');
     Route::get('/gastos-mes', [\App\Http\Controllers\SaidaController::class, 'gastosPorMes'])->name('saida.gastosmes');
+    Route::post('/pesquisar-gastos-receitas', [\App\Http\Controllers\SaidaController::class, 'pesquisarGastoseReceitas'])->name('saida.pesquisargastosereceitas');
+    Route::get('/gastos-e-receita', [\App\Http\Controllers\SaidaController::class, 'gastosEReceita'])->name('saida.gastosereceita');    
 });
