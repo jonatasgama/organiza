@@ -4,7 +4,7 @@
 {{ $emailData['body'] }}
 
 @if($emailData['assunto'] != 'Consulta cancelada')
-<x-mail::button :url="env('APP_URL').'/cancela-consulta/'.$emailData['id']">
+<x-mail::button :url="env('APP_URL').'/cancela-consulta/'.base64_encode($emailData['id'])">
 Cancelar consulta
 </x-mail::button>
 @endif

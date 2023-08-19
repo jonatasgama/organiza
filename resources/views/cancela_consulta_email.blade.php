@@ -47,10 +47,10 @@
                                         <h1 class="h4 text-gray-900 mb-4">Deseja realmente cancelar a consulta?</h1>
                                         {{ isset($erro) && $erro != '' ? $erro : '' }}
                                     </div>
-                                    <form class="user" action="/cancela-consulta/{{ $consulta->id }}" method="post">
+                                    <form class="user" action="/cancela-consulta/{{ base64_encode($consulta->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <input type="hidden" name="paciente_id" value="{{ $consulta->paciente_id }}">
+                                        <input type="hidden" name="paciente_id" value="{{ base64_encode($consulta->paciente_id) }}">
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Nome</label>
                                             <div class="col-sm-10">
