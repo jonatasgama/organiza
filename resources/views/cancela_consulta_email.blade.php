@@ -71,17 +71,17 @@
                                                 <input type="name" class="form-control-plaintext"
                                                 value="{{ date('H:i', strtotime($consulta->inicio_consulta)) }}" readonly>
                                             </div>    
-                                        </div>                                        
+                                        </div>        
+                                        Confirme sua data de nascimento
+                                        <div class="form-group row">
+                                            <div class="col-sm-5">
+                                                <input type="date" class="form-control" name="data_nascimento" id="data_nascimento" required>
+                                            </div>                                                
+                                        </div>      
+                                        {{ $errors->has('data_nascimento') ? $errors->first('data_nascimento') : '' }}                                                                    
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Cancelar
                                         </button>
-                                        <!-- <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a> -->
                                     </form>
                                     @endif
                                 </div>

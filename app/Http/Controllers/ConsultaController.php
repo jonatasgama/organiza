@@ -228,12 +228,27 @@ class ConsultaController extends Controller
     //função onde o cliente confirma se deseja cancelar a consulta
     public function cancelaConsultaEmail($id){
         $consulta = Consulta::with(['paciente'])->find(base64_decode($id));
-        return view('cancela_consulta_email', ['consulta' => $consulta ]);
+        if ($consulta == null){
+            return view('consulta_cancelada');
+        }        
+        return view('cancela_consulta_email', ['consulta' => $consulta]);
     }
 
     //função que cancela a consulta selecionada pelo cliente
     public function cancelaConsulta(Request $req, string $id)
     {
+
+        $data_nascimento = Paciente::find(base64_decode($req->paciente_id));
+        $regras = [
+            'data_nascimento' => 'date_equals:'.$data_nascimento->dt_nascimento,
+        ];
+
+        $feedback = [
+            'date_equals' => 'Por favor, verifique a data de nascimento.'
+        ];
+        //dd($regras);
+        //dd($data_nascimento->dt_nascimento);
+        $req->validate($regras, $feedback);
         /**
          * a variável 'consulta' é utilizada para popular a data e horário da consulta cancelada no corpo do e-mail
          * na variável 'deletado' essas informações já não são armazenadas pois retorna sucesso ou insucesso
