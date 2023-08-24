@@ -7,6 +7,7 @@ use App\Models\Paciente;
 use App\Models\Consulta;
 use App\Models\Tratamento;
 use App\Models\Pagamento;
+use App\Models\Questionario;
 
 class PacienteController extends Controller
 {
@@ -67,7 +68,8 @@ class PacienteController extends Controller
         $consultas = Consulta::where('paciente_id', $id)->orderBy('inicio_consulta')->get();
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
-        return view('cadastra_paciente', [ 'funcao' => 'Visualizar', 'paciente' => $paciente, 'consultas' => $consultas, 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos ]);          
+        $perguntas = Questionario::all();
+        return view('cadastra_paciente', [ 'funcao' => 'Visualizar', 'paciente' => $paciente, 'consultas' => $consultas, 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos, 'perguntas' => $perguntas ]);          
     }
 
     /**

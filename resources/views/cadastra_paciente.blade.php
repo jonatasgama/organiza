@@ -17,7 +17,7 @@
                         </div>             
                     @endif
                     <div class="col-lg-12">
-                        <div class="p-5">
+                        <div class="p-3">
                             @if(isset($paciente->id))
                             <form class="user" action="{{ route('paciente.update', [ 'paciente' => $paciente->id ]) }}" method="post">
                                 @csrf
@@ -28,12 +28,14 @@
                             @endif
                                 <div class="form-group row">                                                                    
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="nome" id="nome"
+                                        Nome:
+                                        <input type="text" class="form-control" name="nome" id="nome"
                                             placeholder="Nome" value="{{ $paciente->nome ?? old('nome') }}" required>
                                     </div>  
                                                                       
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="sobrenome" id="sobrenome"
+                                        Sobrenome:
+                                        <input type="text" class="form-control" name="sobrenome" id="sobrenome"
                                             placeholder="Sobrenome" value="{{ $paciente->sobrenome ?? old('sobrenome') }}" required>
                                     </div>
                                     
@@ -41,23 +43,27 @@
 
                                 <div class="form-group row">                                                                    
                                     <div class="col-sm-3 mb-3 mb-sm-0">
-                                        <input type="date" class="form-control form-control-user" name="dt_nascimento" id="dt_nascimento"
+                                        Data de nascimento:
+                                        <input type="date" class="form-control" name="dt_nascimento" id="dt_nascimento"
                                         value="{{ $paciente->dt_nascimento ?? old('dt_nascimento') }}" required>
                                     </div>  
                                                                       
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control form-control-user" name="telefone" id="telefone"
+                                        Teelfone:
+                                        <input type="text" class="form-control" name="telefone" id="telefone"
                                             placeholder="Telefone com DDD" value="{{ $paciente->telefone ?? old('telefone') }}" required>
                                     </div>
 
                                     <div class="col-sm-4">
-                                        <input type="email" class="form-control form-control-user" name="email" id="email"
+                                        E-mail:
+                                        <input type="email" class="form-control" name="email" id="email"
                                             placeholder="E-mail" value="{{ $paciente->email ?? old('email') }}" required>
                                             {{ $errors->first('email') ?? '' }}
                                     </div>                                    
                                     
                                     <div class="col-sm-2">
-                                        <input type="number" class="form-control form-control-user" name="cep" id="cep"
+                                        CEP:
+                                        <input type="number" class="form-control" name="cep" id="cep"
                                             placeholder="CEP" value="{{ $paciente->cep ?? old('cep') }}" onblur="pesquisacep(this.value);" required>
                                     </div>                                   
 
@@ -65,24 +71,28 @@
 
                                 <div class="form-group row">                                                                    
                                 <div class="col-sm-4">
-                                        <input type="text" class="form-control form-control-user" name="cidade" id="cidade"
+                                    Cidade:
+                                        <input type="text" class="form-control" name="cidade" id="cidade"
                                             placeholder="Cidade" value="{{ $paciente->cidade ?? old('cidade') }}" required>
                                     </div>  
                                                                       
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control form-control-user" name="endereco" id="endereco"
+                                        Endereço:
+                                        <input type="text" class="form-control" name="endereco" id="endereco"
                                             placeholder="Endereço" value="{{ $paciente->endereco ?? old('endereco') }}" required>
                                     </div>                                    
                                 </div>     
                                 
                                 <div class="form-group row">                                                                    
                                 <div class="col-sm-4">
-                                        <input type="text" class="form-control form-control-user" name="bairro" id="bairro"
+                                        Bairro:
+                                        <input type="text" class="form-control" name="bairro" id="bairro"
                                             placeholder="Bairro" value="{{ $paciente->bairro ?? old('bairro') }}" required>
                                     </div>  
                                                                       
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control form-control-user" name="complemento" id="complemento"
+                                        Complemento:
+                                        <input type="text" class="form-control" name="complemento" id="complemento"
                                             placeholder="Complemento" value="{{ $paciente->complemento ?? old('complemento') }}">
                                     </div>                                    
                                 </div>                                  
@@ -98,7 +108,63 @@
                                 @endif
                             </form>
                         
+                            <div class="mb-5 accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Primeira sessão
+                                        </button>
+                                    </h2>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                     
+                                        <div class="card-body">
+                                            <div class="form-group col-sm-12 row">     
+                                                
+                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                    Data da sessão:
+                                                    <input type="date" class="form-control" name="data_sessao" id="data_sessao"
+                                                        value="{{ $paciente->data_sessao ?? old('data_sessao') }}" required>
+                                                </div>   
+
+                                                <div class="col-sm-6">
+                                                    Plano de saúde:
+                                                    <input type="text" class="form-control" name="plano_de_saude" id="plano_de_saude"
+                                                        placeholder="Plano de saúde" value="{{ $paciente->plano_de_saude ?? old('plano_de_saude') }}" required>
+                                                </div>
+                                                
+                                            </div>         
+                                            
+                                            <h4 class="m-0 font-weight-bold text-primary mb-3">Questionário</h4>
+                                            @if(isset($perguntas))
+                                                @foreach($perguntas as $pergunta)                                                    
+                                                    <div class="form-group mb-3 col-sm-12">
+                                                        {{ $pergunta->pergunta }}
+                                                        <textarea class="form-control" name="p{{ $pergunta->id }}"></textarea>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+
+                                            <div class="form-group mb-3 col-sm-6">                                                
+                                                    Anamnese
+                                                    <select class="custom-select" name="anamnese">
+                                                        <option value="sim">Sim</option>
+                                                        <option value="nao">Não</option>
+                                                    </select>
+                                                
+                                            </div>
+                                            
+                                            <div class="form-group mb-3 col-sm-12">
+                                                Hipóteses Diagnóstica
+                                                <textarea class="form-control" name="hipoteses_diagnostica"></textarea>
+                                            </div>
+
+                                        </div>                                    
+                                    </div>
+                                </div>                            
+                            </div>                                    
 
                             @if(isset($consultas))
                                 <div class="card shadow mb-4">

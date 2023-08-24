@@ -8,8 +8,8 @@ use App\Models\Tratamento;
 use App\Models\Pagamento;
 use App\Models\Paciente;
 use App\Models\Financeiro;
+use App\Models\Questionario;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\JoinClause;
 use Mail;
 use App\Mail\NotificaConsulta;
 use Illuminate\Support\Arr;
@@ -62,6 +62,7 @@ class ConsultaController extends Controller
         return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas, 'pie' => $pie, 'chart_area' => $chart_area ]);
     }
 
+    /*
     public function graficoPie(){
         $forma_pagamentos = DB::select("select count(p.forma_pagamento) as qtd,p.forma_pagamento from consultas c inner join pagamentos p on p.id = c.pagamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'
         group by p.forma_pagamento");
@@ -71,6 +72,7 @@ class ConsultaController extends Controller
         }        
         return response()->json($pagamentos);
     }
+    */
 
     public function ajaxUpdate(Request $req)
     {
