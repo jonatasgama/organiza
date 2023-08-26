@@ -27,7 +27,8 @@ class PacienteController extends Controller
     {
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
-        return view('cadastra_paciente', ['funcao' => 'Cadastrar', 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos]);
+        $perguntas = Questionario::all();
+        return view('cadastra_paciente', ['funcao' => 'Cadastrar', 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos, 'perguntas' => $perguntas ]);
     }
 
     /**
