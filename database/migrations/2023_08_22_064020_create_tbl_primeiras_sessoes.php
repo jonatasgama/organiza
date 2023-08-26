@@ -27,7 +27,7 @@ return new class extends Migration
             $table->text('p9')->nullable();
             $table->text('p10')->nullable();
             $table->enum('anamnese', ['sim', 'não']);
-            $table->text('hipoteses_diagnostica')->default('N/A');
+            $table->text('hipoteses_diagnostica')->nullable();
             $table->timestamps();
             $table->foreign('paciente_id')->references('id')->on('pacientes');
         });
