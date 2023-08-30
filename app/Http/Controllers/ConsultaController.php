@@ -31,6 +31,7 @@ class ConsultaController extends Controller
     public function dash(Request $req)
     {
         $receita = DB::scalar("select sum(t.valor) as receita from tratamentos t inner join consultas c on t.id = c.tratamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'");
+        $gastos = DB::scalar("select (sum(quantidade) * sum(valor_unidade)) as gastos from financeiros where month(data_registro) = month(now())");
         $consultas_realizadas = DB::scalar("select count(id) as consultas_realizadas from consultas where monthname(inicio_consulta) = monthname(now()) and pagamento = 'realizado'");
         $consultas_agendadas = DB::scalar("select count(id) as consultas_agendadas from consultas where date(inicio_consulta) >= date(now()) and pagamento = 'pendente'");
         $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'pendente'");
@@ -59,7 +60,7 @@ class ConsultaController extends Controller
             $chart_area = '';
         }
 
-        return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas, 'pie' => $pie, 'chart_area' => $chart_area ]);
+        return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas, 'pie' => $pie, 'chart_area' => $chart_area, 'gastos' => $gastos ]);
     }
 
     /*

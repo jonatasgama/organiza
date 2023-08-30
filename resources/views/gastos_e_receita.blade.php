@@ -53,17 +53,17 @@
                                         <thead>
                                             <tr>
                                                 <th>Mês</th>
-                                                <th>Receita</th>
-                                                <th>Saída</th>
-                                                <th>Total</th>
+                                                <th>Faturamento</th>
+                                                <th>Despesas</th>
+                                                <th>Lucro</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
                                                 <th>Mês</th>
-                                                <th>Receita</th>
-                                                <th>Saída</th>
-                                                <th>Total</th>
+                                                <th>Faturamento</th>
+                                                <th>Despesas</th>
+                                                <th>Lucro</th>
                                             </tr>
                                         </tfoot>
                                         
