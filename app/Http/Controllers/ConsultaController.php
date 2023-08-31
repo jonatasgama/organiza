@@ -37,8 +37,10 @@ class ConsultaController extends Controller
         $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'pendente'");
         $forma_pagamentos = DB::select("select count(p.forma_pagamento) as qtd,p.forma_pagamento from consultas c inner join pagamentos p on p.id = c.pagamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'
         group by p.forma_pagamento");
+        DB::select("SET lc_time_names = 'pt_BR';");
         $receita_por_mes = DB::select("select sum(t.valor) as total,  substr(monthname(c.inicio_consulta), 1, 3) as mes from consultas c join tratamentos t on t.id = c.tratamento_id where c.pagamento = 'realizado' group by mes
         order by mes desc");
+        $mes = DB::scalar("select substr(monthname(now()),1, 3)");
 
         if($forma_pagamentos){
             foreach($forma_pagamentos as $pg){
@@ -60,7 +62,7 @@ class ConsultaController extends Controller
             $chart_area = '';
         }
 
-        return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas, 'pie' => $pie, 'chart_area' => $chart_area, 'gastos' => $gastos ]);
+        return view('home', [ 'receita' => $receita, 'consultas_realizadas' => $consultas_realizadas, 'consultas_agendadas' => $consultas_agendadas, 'nao_realizadas' => $nao_realizadas, 'pie' => $pie, 'chart_area' => $chart_area, 'gastos' => $gastos, 'mes' => $mes ]);
     }
 
     /*
@@ -243,6 +245,10 @@ class ConsultaController extends Controller
 
         $data_nascimento = Paciente::find(base64_decode($req->paciente_id));
         $regras = [
+            /**aqui estou verificando se a data de nascimento
+             * informada no form de cancelamento de consulta
+             * é igual a data grava no banco de dados
+             */
             'data_nascimento' => 'date_equals:'.$data_nascimento->dt_nascimento,
         ];
 
