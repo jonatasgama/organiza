@@ -31,10 +31,10 @@ class ConsultaController extends Controller
     public function dash(Request $req)
     {
         $receita = DB::scalar("select sum(t.valor) as receita from tratamentos t inner join consultas c on t.id = c.tratamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'");
-        $gastos = DB::scalar("select (sum(quantidade) * sum(valor_unidade)) as gastos from financeiros where month(data_registro) = month(now())");
+        $gastos = DB::scalar("SELECT sum(valor) from (SELECT sum(quantidade) * valor_unidade as valor, gasto_id from `financeiros` where month(data_registro) = month(now()) group by gasto_id) as base");
         $consultas_realizadas = DB::scalar("select count(id) as consultas_realizadas from consultas where monthname(inicio_consulta) = monthname(now()) and pagamento = 'realizado'");
         $consultas_agendadas = DB::scalar("select count(id) as consultas_agendadas from consultas where date(inicio_consulta) >= date(now()) and pagamento = 'pendente'");
-        $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and pagamento = 'pendente'");
+        $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and month(inicio_consulta) = month(now()) and pagamento = 'pendente'");
         $forma_pagamentos = DB::select("select count(p.forma_pagamento) as qtd,p.forma_pagamento from consultas c inner join pagamentos p on p.id = c.pagamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'
         group by p.forma_pagamento");
         DB::select("SET lc_time_names = 'pt_BR';");
