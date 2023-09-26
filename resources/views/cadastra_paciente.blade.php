@@ -195,8 +195,8 @@
                                                 <div class="form-group mb-3 col-sm-6">                                                
                                                         Anamnese
                                                         <select class="custom-select" name="anamnese">
-                                                            <option value="sim" {{ ($paciente->primeiraSessao->anamnese == 'sim' ? 'selected' : '') ?? old('anamnese') }}>Sim</option>
-                                                            <option value="não" {{ ($paciente->primeiraSessao->anamnese == 'não' ? 'selected' : '') ?? old('anamnese') }}>Não</option>
+                                                            <option value="sim" {{ (isset($paciente->primeiraSessao->anamnese) == 'sim' ? 'selected' : '') ?? old('anamnese') }}>Sim</option>
+                                                            <option value="não" {{ (isset($paciente->primeiraSessao->anamnese) == 'não' ? 'selected' : '') ?? old('anamnese') }}>Não</option>
                                                         </select>
                                                     
                                                 </div>
