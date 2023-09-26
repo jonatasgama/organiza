@@ -19,6 +19,6 @@ class Paciente extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     {
-        return $this->hasOne(PrimeiraSessao::class, 'primeira_sessao_id', 'id');
+        return $this->hasOne(PrimeiraSessao::class, 'id', 'primeira_sessao_id');
     }
 }

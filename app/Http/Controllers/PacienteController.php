@@ -65,7 +65,7 @@ class PacienteController extends Controller
      */
     public function show(string $id)
     {
-        $paciente = Paciente::find($id);
+        $paciente = Paciente::with(['primeiraSessao'])->where(['id' => $id])->first();
         $consultas = Consulta::where('paciente_id', $id)->orderBy('inicio_consulta')->get();
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();

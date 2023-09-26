@@ -9,6 +9,7 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\SaidaController;
+use App\Http\Controllers\PrimeiraSessaoController;
 use App\Mail\NotificaConsulta;
 
 /*
@@ -56,4 +57,5 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::get('/gastos-mes', [\App\Http\Controllers\SaidaController::class, 'gastosPorMes'])->name('saida.gastosmes');
     Route::post('/pesquisar-gastos-receitas', [\App\Http\Controllers\SaidaController::class, 'pesquisarGastoseReceitas'])->name('saida.pesquisargastosereceitas');
     Route::get('/gastos-e-receita', [\App\Http\Controllers\SaidaController::class, 'gastosEReceita'])->name('saida.gastosereceita');    
+    Route::post('/primeira-sessao/salvar', [\App\Http\Controllers\PrimeiraSessaoController::class, 'store'])->name('primeirasessao.store');
 });
