@@ -224,6 +224,38 @@
                         </div>
                     </div>
 
+                    <h3 class="mt-5">Psicoeducação</h3>
+                    <hr>
+
+                    <div class="form-group row">
+                        <div class="form-group mb-3 col-sm-12">
+                            Aprendizagem:                  
+                            <textarea class="form-control" name="anotacoes_relevantes"></textarea>
+                        </div>
+
+                        <div class="form-group mb-3 col-sm-12">
+                            Observação:                  
+                            <textarea class="form-control" name="anotacoes_relevantes"></textarea>
+                        </div>
+
+                    </div>
+
+                    <h3 class="mt-5">Resolução de problemas</h3>
+                    <hr>
+
+                    <div class="form-group row">
+                        <div class="form-group mb-3 col-sm-12">
+                            Problemas:                  
+                            <textarea class="form-control" name="anotacoes_relevantes"></textarea>
+                        </div>
+
+                        <div class="form-group mb-3 col-sm-12">
+                            Resoluções:                  
+                            <textarea class="form-control" name="anotacoes_relevantes"></textarea>
+                        </div>
+
+                    </div>
+
                     <button class="btn btn-primary mb-4" type="submit">
                         Salvar
                     </button>
