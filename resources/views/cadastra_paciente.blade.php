@@ -108,113 +108,134 @@
                                 @endif
                             </form>
                             
-                            <form action="{{ route('primeirasessao.store') }}" method="post">
-                                @csrf
-                                <div class="mb-5 accordion" id="accordionExample">
-                                    <div class="card">
-                                        <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                Primeira sessão
-                                            </button>
-                                        </h2>
-                                        </div>
+                            @if(isset($paciente))
+                                <form action="{{ route('primeirasessao.store') }}" method="post">
+                                    @csrf
+                                    <div class="mb-5 accordion" id="accordionExample">
+                                        <div class="card">
+                                            <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Primeira sessão
+                                                </button>
+                                            </h2>
+                                            </div>
 
-                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                        <input type="hidden" value="{{ $paciente->id }}" name="paciente_id">
-                                            <div class="card-body">
-                                                <div class="form-group col-sm-12 row">     
+                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <input type="hidden" value="{{ $paciente->id }}" name="paciente_id">
+                                                <div class="card-body">
+                                                    <div class="form-group col-sm-12 row">     
+                                                        
+                                                        <div class="col-sm-4 mb-3 mb-sm-0">
+                                                            Data da sessão:
+                                                            <input type="date" class="form-control" name="data_sessao" id="data_sessao"
+                                                                value="{{ $paciente->primeiraSessao->data_sessao ?? old('data_sessao') }}" required>
+                                                        </div>   
+
+                                                        <div class="col-sm-4">
+                                                            Plano de saúde:
+                                                            <input type="text" class="form-control" name="plano_de_saude" id="plano_de_saude"
+                                                                placeholder="Plano de saúde" value="{{ $paciente->primeiraSessao->plano_de_saude ?? old('plano_de_saude') }}" required>
+                                                        </div>
+
+                                                        <div class="col-sm-4">                                                
+                                                            Canal origem
+                                                            <select class="custom-select" name="anamnese">
+                                                                <option value="sim" {{ ($paciente->primeiraSessao->anamnese == 'sim' ? 'selected' : '') ?? old('anamnese') }}>Instagram</option>
+                                                                <option value="não" {{ ($paciente->primeiraSessao->anamnese == 'não' ? 'selected' : '') ?? old('anamnese') }}>Recomendação</option>
+                                                            </select>
+                                                        
+                                                        </div>                                                        
+                                                        
+                                                    </div>         
                                                     
-                                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                                        Data da sessão:
-                                                        <input type="date" class="form-control" name="data_sessao" id="data_sessao"
-                                                            value="{{ $paciente->primeiraSessao->data_sessao ?? old('data_sessao') }}" required>
-                                                    </div>   
+                                                    <h4 class="m-0 font-weight-bold text-primary mb-3">Questionário</h4>
+                                                    @if(isset($perguntas))                                                                           
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['0']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p1">{{ ($paciente->primeiraSessao->p1 ?? "") ?? old('p1') }}</textarea>
+                                                            </div>
 
-                                                    <div class="col-sm-6">
-                                                        Plano de saúde:
-                                                        <input type="text" class="form-control" name="plano_de_saude" id="plano_de_saude"
-                                                            placeholder="Plano de saúde" value="{{ $paciente->primeiraSessao->plano_de_saude ?? old('plano_de_saude') }}" required>
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['1']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p2">{{ ($paciente->primeiraSessao->p2 ?? "") ?? old('p2') }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['2']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p3">{{ ($paciente->primeiraSessao->p3 ?? "") ?? old('p3') }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['3']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p4">{{ ($paciente->primeiraSessao->p4 ?? "") ?? old('p4') }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['4']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p5">{{ ($paciente->primeiraSessao->p5 ?? "") ?? old('p5') }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['5']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p6">{{ ($paciente->primeiraSessao->p6 ?? "") ?? old('p6') }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['6']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p7">{{ ($paciente->primeiraSessao->p7 ?? "") ?? old('p7') }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['7']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p8">{{ ($paciente->primeiraSessao->p8 ?? "") ?? old('p8') }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['8']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p9">{{ ($paciente->primeiraSessao->p9 ?? "") ?? old('p9') }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-group mb-3 col-sm-12">
+                                                                {{ $perguntas['9']->pergunta }}                                              
+                                                                <textarea class="form-control" name="p10">{{ ($paciente->primeiraSessao->p10 ?? "") ?? old('p10') }}</textarea>
+                                                            </div>
+                                                    @endif
+
+                                                    <div class="form-group mb-3 col-sm-6">                                                
+                                                            Anamnese
+                                                            <select class="custom-select" name="anamnese">
+                                                                <option value="sim" {{ ($paciente->primeiraSessao->anamnese == 'sim' ? 'selected' : '') ?? old('anamnese') }}>Sim</option>
+                                                                <option value="não" {{ ($paciente->primeiraSessao->anamnese == 'não' ? 'selected' : '') ?? old('anamnese') }}>Não</option>
+                                                            </select>
+                                                        
                                                     </div>
                                                     
-                                                </div>         
-                                                
-                                                <h4 class="m-0 font-weight-bold text-primary mb-3">Questionário</h4>
-                                                @if(isset($perguntas))                                                                           
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['0']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p1">{{ ($paciente->primeiraSessao->p1 ?? "") ?? old('p1') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['1']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p2">{{ ($paciente->primeiraSessao->p2 ?? "") ?? old('p2') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['2']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p3">{{ ($paciente->primeiraSessao->p3 ?? "") ?? old('p3') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['3']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p4">{{ ($paciente->primeiraSessao->p4 ?? "") ?? old('p4') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['4']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p5">{{ ($paciente->primeiraSessao->p5 ?? "") ?? old('p5') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['5']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p6">{{ ($paciente->primeiraSessao->p6 ?? "") ?? old('p6') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['6']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p7">{{ ($paciente->primeiraSessao->p7 ?? "") ?? old('p7') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['7']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p8">{{ ($paciente->primeiraSessao->p8 ?? "") ?? old('p8') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['8']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p9">{{ ($paciente->primeiraSessao->p9 ?? "") ?? old('p9') }}</textarea>
-                                                        </div>
-
-                                                        <div class="form-group mb-3 col-sm-12">
-                                                            {{ $perguntas['9']->pergunta }}                                              
-                                                            <textarea class="form-control" name="p10">{{ ($paciente->primeiraSessao->p10 ?? "") ?? old('p10') }}</textarea>
-                                                        </div>
-                                                @endif
-
-                                                <div class="form-group mb-3 col-sm-6">                                                
-                                                        Anamnese
-                                                        <select class="custom-select" name="anamnese">
-                                                            <option value="sim" {{ (isset($paciente->primeiraSessao->anamnese) == 'sim' ? 'selected' : '') ?? old('anamnese') }}>Sim</option>
-                                                            <option value="não" {{ (isset($paciente->primeiraSessao->anamnese) == 'não' ? 'selected' : '') ?? old('anamnese') }}>Não</option>
-                                                        </select>
+                                                    <div class="form-group mb-3 col-sm-12">
+                                                        Hipóteses Diagnóstica
+                                                        <textarea class="form-control" name="hipoteses_diagnostica">{{ $paciente->primeiraSessao->hipoteses_diagnostica ?? old('hipoteses_diagnostica') }}</textarea>
+                                                    </div>
                                                     
-                                                </div>
-                                                
-                                                <div class="form-group mb-3 col-sm-12">
-                                                    Hipóteses Diagnóstica
-                                                    <textarea class="form-control" name="hipoteses_diagnostica">{{ $paciente->primeiraSessao->hipoteses_diagnostica ?? old('hipoteses_diagnostica') }}</textarea>
-                                                </div>
+                                                    <div class="form-group mb-3 col-sm-12">
+                                                        Metas terapêuticas da sessão:                                             
+                                                        <textarea class="form-control" name="metas_terapeuticas" rows="4"></textarea>
+                                                    </div>
 
-                                                <button type="submit" class="btn btn-info mb-4">
-                                                    Salvar
-                                                </button>
+                                                    <div class="form-group mb-3 col-sm-12">
+                                                        Anotações relevantes:                  
+                                                        <textarea class="form-control" name="anotacoes_relevantes" rows="4"></textarea>
+                                                    </div>
 
-                                            </div>                                    
-                                        </div>
-                                    </div>                            
-                                </div>          
-                            </form>                          
+                                                    <button type="submit" class="btn btn-info mb-4">
+                                                        Salvar
+                                                    </button>
+
+                                                </div>                                    
+                                            </div>
+                                        </div>                            
+                                    </div>          
+                                </form>                          
+                            @endif
 
                             @if(isset($consultas))
                                 <div class="card shadow mb-4">
@@ -239,7 +260,7 @@
                                                         <th>Tratamento</th>
                                                         <th>Inicio</th>
                                                         <th>Fim</th>
-                                                        <th colspan="2">Opções</th>
+                                                        <th colspan="3">Opções</th>
                                                     </tr>
                                                 </tfoot>
                                                 
@@ -252,6 +273,7 @@
                                                         <td>{{ date("H:i", strtotime($consulta->inicio_consulta)) }}</td>
                                                         <td>{{ date("H:i", strtotime($consulta->fim_consulta)) }}</td>
                                                         <td><button class="btn btn-info" data-toggle="modal" data-target="#atualizaConsulta" onclick="pegaConsulta({{ $consulta }})">Editar</button></td>
+                                                        <td><button class="btn btn-primary">Visualizar</button></td>
                                                         <td>
                                                             <form id="form_{{ $consulta->id }}" method="post" action="/consulta/{{ $consulta->id }}">
                                                                 @csrf
@@ -259,7 +281,7 @@
                                                                 <input type="hidden" name="paciente_id" value="{{ $consulta->paciente_id }}">
                                                                 <button class="btn btn-danger" onclick="document.getElementById('form_{{ $consulta->id }}').submit()">Cancelar</button>
                                                             </form>                                                             
-                                                        </td>
+                                                        </td>                                                        
                                                     </tr>
                                                     
                                                     @endforeach

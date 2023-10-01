@@ -36,6 +36,7 @@ Route::get('email', function(){
     return new NotificaConsulta();
 });
 
+
 Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::get('/home', [\App\Http\Controllers\Controller::class, 'home'])->name('home');
     Route::get('/cadastra-tratamento', [\App\Http\Controllers\Controller::class, 'cadastraTratamento'])->name('cadastra-tratamento');
@@ -58,4 +59,7 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::post('/pesquisar-gastos-receitas', [\App\Http\Controllers\SaidaController::class, 'pesquisarGastoseReceitas'])->name('saida.pesquisargastosereceitas');
     Route::get('/gastos-e-receita', [\App\Http\Controllers\SaidaController::class, 'gastosEReceita'])->name('saida.gastosereceita');    
     Route::post('/primeira-sessao/salvar', [\App\Http\Controllers\PrimeiraSessaoController::class, 'store'])->name('primeirasessao.store');
+    Route::get('/registro-sessao', function(){
+        return view('registro_sessao');
+    });
 });
