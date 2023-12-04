@@ -143,7 +143,6 @@
                                                             <select class="custom-select" name="anamnese">
                                                                 <option value="instagram">Instagram</option>
                                                                 <option value="recomendacao">Recomendação</option>
-                                                                <option value="facebook">Facebook</option>
                                                             </select>
                                                         
                                                         </div>                                                        
