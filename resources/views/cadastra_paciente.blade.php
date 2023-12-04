@@ -141,8 +141,8 @@
                                                         <div class="col-sm-4">                                                
                                                             Canal origem
                                                             <select class="custom-select" name="anamnese">
-                                                                <option value="sim" {{ ($paciente->primeiraSessao->anamnese == 'sim' ? 'selected' : '') ?? old('anamnese') }}>Instagram</option>
-                                                                <option value="não" {{ ($paciente->primeiraSessao->anamnese == 'não' ? 'selected' : '') ?? old('anamnese') }}>Recomendação</option>
+                                                                <option value="instagram">Instagram</option>
+                                                                <option value="recomendacao">Recomendação</option>
                                                             </select>
                                                         
                                                         </div>                                                        
