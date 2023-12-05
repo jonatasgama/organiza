@@ -142,6 +142,7 @@
                                                             Canal origem
                                                             <select class="custom-select" name="anamnese">
                                                                 <option value="instagram">Instagram</option>
+                                                                <option value="recomendacao">Recomendação</option>
                                                             </select>
                                                         
                                                         </div>                                                        
