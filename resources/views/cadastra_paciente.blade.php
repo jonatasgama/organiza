@@ -250,16 +250,16 @@
                                                         <th>Tratamento</th>
                                                         <th>Inicio</th>
                                                         <th>Fim</th>
-                                                        <th colspan="2">Opções</th>
+                                                        <th colspan="3" class="text-center">Opções</th>
                                                     </tr>
                                                 </thead>
                                                 <tfoot>
-                                                <tr>
+                                                    <tr>
                                                         <th>Data consulta</th>
                                                         <th>Tratamento</th>
                                                         <th>Inicio</th>
                                                         <th>Fim</th>
-                                                        <th colspan="3">Opções</th>
+                                                        <th colspan="3" class="text-center">Opções</th>
                                                     </tr>
                                                 </tfoot>
                                                 
@@ -271,16 +271,17 @@
                                                         <td>{{ $consulta->tratamento->tratamento }}</td>
                                                         <td>{{ date("H:i", strtotime($consulta->inicio_consulta)) }}</td>
                                                         <td>{{ date("H:i", strtotime($consulta->fim_consulta)) }}</td>
-                                                        <td><button class="btn btn-info" data-toggle="modal" data-target="#atualizaConsulta" onclick="pegaConsulta({{ $consulta }})">Editar</button></td>
+                                                        <td><button class="btn btn-info" data-toggle="modal" data-target="#atualizaConsulta" onclick="pegaConsulta({{ $consulta }})" {{ $consulta->pagamento == 'realizado' ? 'disabled' : '' }}>Editar</button></td>
                                                         <td><button class="btn btn-primary">Visualizar</button></td>
                                                         <td>
                                                             <form id="form_{{ $consulta->id }}" method="post" action="/consulta/{{ $consulta->id }}">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <input type="hidden" name="paciente_id" value="{{ $consulta->paciente_id }}">
-                                                                <button class="btn btn-danger" onclick="document.getElementById('form_{{ $consulta->id }}').submit()">Cancelar</button>
+                                                                <button class="btn btn-danger" onclick="document.getElementById('form_{{ $consulta->id }}').submit()" {{ $consulta->pagamento == 'realizado' ? 'disabled' : '' }}>Cancelar</button>
                                                             </form>                                                             
-                                                        </td>                                                        
+                                                        </td>       
+                                                                                                         
                                                     </tr>
                                                     
                                                     @endforeach

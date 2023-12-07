@@ -166,38 +166,45 @@ class ConsultaController extends Controller
     public function update(Request $req)
     {
         $id = $req->id;
-        $resultado = Consulta::find($id);      
-        //se não teve alteração na data da consulta, não envio e-mail para o cliente, utilizando a variável 'envia' 
-        $envia = date("Y-m-d H:i:s", strtotime($req->inicio_consulta)) != $resultado->inicio_consulta ? true : false; 
+        $resultado = Consulta::find($id);  
+        if($resultado->pagamento == 'realizado'){
 
-        $resultado->update($req->all());
-        $tratamento = Tratamento::find($req->tratamento_id);
-        $valor_tratamento = $tratamento->valor;
-        //atualiza as informações na tabela de controle financeiro
-        Financeiro::where('consulta_id', $id)
-            ->update([
-                'data_registro' => $req->inicio_consulta,
-                'tratamento_id' => $req->tratamento_id,
-                'pagamento_id' => $req->pagamento_id,
-                'pagamento' => $req->pagamento,
-                'valor_tratamento' => $valor_tratamento          
-            ]);
-        $msg = $resultado == true ? 'Consulta atualizada com sucesso.' : 'Ocorreu algum erro, consulta não atualizada.';
-        $alert = $resultado == true ? 'success' : 'danger';
-        if($envia){
-            $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
-            $emailData = [
-                'id' => $id,
-                'assunto' => 'Consulta reagendada',
-                'title' => 'Consulta reagendada.',
-                'body' => "Olá, $paciente->nome sua consulta foi reagendada para o dia ".date("d/m/Y", strtotime($req->inicio_consulta)). " às " .date("H:i", strtotime($req->inicio_consulta)). " horas.",
-            ];
-    
-            Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
-        }         
-        //se a atualização veio pelo form da tela de consultas/calendário, então volto pra essa rota
-        if($req->event_id){
-            return redirect()->route('consulta.index')->with('msg', $msg)->with('alert', $alert);    
+            $msg = 'Consultas com pagamento realizado não podem ser alteradas.';
+            $alert = 'warning';
+        }    
+        elseif($resultado->pagamento == 'pendente'){
+            //se não teve alteração na data da consulta, não envio e-mail para o cliente, utilizando a variável 'envia' 
+            $envia = date("Y-m-d H:i:s", strtotime($req->inicio_consulta)) != $resultado->inicio_consulta ? true : false; 
+
+            $resultado->update($req->all());
+            $tratamento = Tratamento::find($req->tratamento_id);
+            $valor_tratamento = $tratamento->valor;
+            //atualiza as informações na tabela de controle financeiro
+            Financeiro::where('consulta_id', $id)
+                ->update([
+                    'data_registro' => $req->inicio_consulta,
+                    'tratamento_id' => $req->tratamento_id,
+                    'pagamento_id' => $req->pagamento_id,
+                    'pagamento' => $req->pagamento,
+                    'valor_tratamento' => $valor_tratamento          
+                ]);
+            $msg = $resultado == true ? 'Consulta atualizada com sucesso.' : 'Ocorreu algum erro, consulta não atualizada.';
+            $alert = $resultado == true ? 'success' : 'danger';
+            if($envia){
+                $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
+                $emailData = [
+                    'id' => $id,
+                    'assunto' => 'Consulta reagendada',
+                    'title' => 'Consulta reagendada.',
+                    'body' => "Olá, $paciente->nome sua consulta foi reagendada para o dia ".date("d/m/Y", strtotime($req->inicio_consulta)). " às " .date("H:i", strtotime($req->inicio_consulta)). " horas.",
+                ];
+        
+                Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
+            }         
+            //se a atualização veio pelo form da tela de consultas/calendário, então volto pra essa rota
+            if($req->event_id){
+                return redirect()->route('consulta.index')->with('msg', $msg)->with('alert', $alert);    
+            }
         }
         //caso a atualização tenha vindo pela tela de cadastro do cliente, então volto para essa rota
         return redirect()->route('paciente.show', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert);            
@@ -213,20 +220,28 @@ class ConsultaController extends Controller
          * na variável 'deletado' essas informações já não são armazenadas pois retorna sucesso ou insucesso
         */
         $consulta = Consulta::find($id);
-        $deletado = Consulta::find($id)->delete();
+        if($consulta->pagamento == 'realizado'){
 
-        $msg = $deletado == true ? 'Consulta cancelada com sucesso.' : 'Ocorreu algum erro, consulta não cancelada.';
-        $alert = $deletado == true ? 'success' : 'danger';
-        if($deletado){
-            $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
-            $emailData = [
-                'assunto' => 'Consulta cancelada',
-                'title' => 'Consulta cancelada.',
-                'body' => "Olá, $paciente->nome sua consulta para o dia ".date("d/m/Y", strtotime($consulta->inicio_consulta)). " às " .date("H:i", strtotime($consulta->inicio_consulta)). " horas foi cancelada.",
-            ];
-    
-            Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
-        } 
+            $msg = 'Consultas com pagamento realizado não podem ser excluídas.';
+            $alert = 'danger';
+        }
+
+        elseif($consulta->pagamento == 'pendente'){
+            $deletado = Consulta::find($id)->delete();
+
+            $msg = $deletado == true ? 'Consulta cancelada com sucesso.' : 'Ocorreu algum erro, consulta não cancelada.';
+            $alert = $deletado == true ? 'success' : 'danger';
+            if($deletado){
+                $paciente = Paciente::select('email','nome')->where('id', $req->paciente_id)->first();
+                $emailData = [
+                    'assunto' => 'Consulta cancelada',
+                    'title' => 'Consulta cancelada.',
+                    'body' => "Olá, $paciente->nome sua consulta para o dia ".date("d/m/Y", strtotime($consulta->inicio_consulta)). " às " .date("H:i", strtotime($consulta->inicio_consulta)). " horas foi cancelada.",
+                ];
+        
+                Mail::to($paciente->email)->send(new NotificaConsulta($emailData));
+            }    
+        }
         return redirect()->route('paciente.show', [$req->paciente_id])->with('msg', $msg)->with('alert', $alert); 
     }
 
