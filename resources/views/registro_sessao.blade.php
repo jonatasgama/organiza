@@ -16,6 +16,15 @@
                 {{ session('msg') }}
             </div>             
         @endif
+
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Pacientes</a></li>
+              <li class="breadcrumb-item"><a href="#">Nome</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Registro de Sessão</li>
+            </ol>
+        </nav>
+
         <div class="col-lg-12">
             <div class="p-3">
                 @if(isset($paciente->id))

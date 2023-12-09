@@ -16,6 +16,18 @@
                             {{ session('msg') }}
                         </div>             
                     @endif
+
+                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('paciente.index') }}">Pacientes</a></li>
+                            @if(isset($paciente))
+                                <li class="breadcrumb-item active" aria-current="page">{{ $paciente->nome." ".$paciente->sobrenome }}</li>
+                            @else
+                                <li class="breadcrumb-item active" aria-current="page">Cadastrar</li>
+                          @endif
+                        </ol>
+                    </nav>
+
                     <div class="col-lg-12">
                         <div class="p-3">
                             @if(isset($paciente->id))
@@ -111,7 +123,7 @@
                             @if(isset($paciente))
                                 <form action="{{ route('primeirasessao.store') }}" method="post">
                                     @csrf
-                                    <div class="mb-5 accordion" id="accordionExample">
+                                    <div class="mb-4 accordion" id="accordionExample">
                                         <div class="card">
                                             <div class="card-header" id="headingOne">
                                             <h2 class="mb-0">
@@ -121,7 +133,7 @@
                                             </h2>
                                             </div>
 
-                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div id="collapseOne" class="collapsing" aria-labelledby="headingOne" data-parent="#accordionExample">
                                             <input type="hidden" value="{{ $paciente->id }}" name="paciente_id">
                                                 <div class="card-body">
                                                     <div class="form-group col-sm-12 row">     
@@ -148,7 +160,7 @@
                                                         
                                                     </div>         
                                                     
-                                                    <h4 class="m-0 font-weight-bold text-primary mb-3">Questionário</h4>
+                                                    <h4 class="m-0 text-primary mb-3">Questionário</h4>
                                                     @if(isset($perguntas))                                                                           
                                                             <div class="form-group mb-3 col-sm-12">
                                                                 {{ $perguntas['0']->pergunta }}                                              
@@ -233,13 +245,344 @@
                                             </div>
                                         </div>                            
                                     </div>          
-                                </form>                          
+                                </form>
+                                
+                                
+                                <form action="{{ route('primeirasessao.store') }}" method="post">
+                                    @csrf
+                                    <div class="mb-4 accordion" id="accordionExample">
+                                        <div class="card">
+                                            <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#avaliacao" aria-expanded="true" aria-controls="collapseOne">
+                                                    Avaliação
+                                                </button>
+                                            </h2>
+                                            </div>
+
+                                            <div id="avaliacao" class="collapsing" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <input type="hidden" value="{{ $paciente->id }}" name="paciente_id">
+                                                <div class="card-body">
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#familia" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Família</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="familia">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="familia_avalicao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="familia_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="familia_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="familia_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#saude" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Saúde</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="saude">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="saude_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="saude_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="saude_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="saude_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#profissional" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Profissional</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="profissional">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="profissional_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="profissional_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="profissional_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="profissional_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div> 
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#lazer" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Lazer</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="lazer">
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="lazer_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="lazer_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="lazer_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="lazer_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>   
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#financeiro" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Financeiro</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="financeiro">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="financeiro_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="financeiro_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="financeiro_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="financeiro_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>  
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#afetiva" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Afetiva</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="afetiva">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="afetiva_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="afetiva_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="afetiva_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="afetiva_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>   
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#academia" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Academia</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="academia">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="academia_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="academia_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="academia_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="academia_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#espiritualidade" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Espiritualidade</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="espiritualidade">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="espiritualidade_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="espiritualidade_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="espiritualidade_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="espiritualidade_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>                                                    
+
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#social" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Social</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="social">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="social_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="social_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="social_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="social_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>      
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#justica_social" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Justiça Social</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="justica_social">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="justica_social_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="justica_social_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="justica_social_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="justica_social_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>      
+                                                    
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#autoconceito" aria-expanded="true" aria-controls="collapseOne">
+                                                        <h5 class="m-0 text-primary mb-3">Autoconceito</h5>
+                                                    </button>
+                                                    <hr>
+                                                    <div class="form-group col-sm-12 row collapsing" id="autoconceito">     
+                                                        
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Avaliação 1 a 5:
+                                                            <textarea class="form-control" name="autoconceito_avaliacao_1_a_5" rows="3"></textarea>
+                                                        </div> 
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria de alcançar?
+                                                            <textarea class="form-control" name="autoconceito_gostaria_de_alcancar" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            Quais são as sua dificuldades?
+                                                            <textarea class="form-control" name="autoconceito_dificuldades" rows="3"></textarea>
+                                                        </div>
+
+                                                        <div class="col-sm-12 mb-3 mb-sm-0">
+                                                            O que gostaria que fosse diferente?
+                                                            <textarea class="form-control" name="autoconceito_diferente" rows="3"></textarea>
+                                                        </div>
+
+                                                    </div>                                                    
+                                                </div>
+                                            </div>                            
+                                        </div>
+                                    </div>          
+                                </form>
+
                             @endif
 
                             @if(isset($consultas))
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">Consultas</h6>
+                                        <h6 class="m-0 text-primary">Consultas</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -272,7 +615,7 @@
                                                         <td>{{ date("H:i", strtotime($consulta->inicio_consulta)) }}</td>
                                                         <td>{{ date("H:i", strtotime($consulta->fim_consulta)) }}</td>
                                                         <td><button class="btn btn-info" data-toggle="modal" data-target="#atualizaConsulta" onclick="pegaConsulta({{ $consulta }})" {{ $consulta->pagamento == 'realizado' ? 'disabled' : '' }}>Editar</button></td>
-                                                        <td><button class="btn btn-primary">Visualizar</button></td>
+                                                        <td><a href="#" class="btn btn-primary">Visualizar</a></td>
                                                         <td>
                                                             <form id="form_{{ $consulta->id }}" method="post" action="/consulta/{{ $consulta->id }}">
                                                                 @csrf
