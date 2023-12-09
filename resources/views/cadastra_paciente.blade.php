@@ -615,7 +615,7 @@
                                                         <td>{{ date("H:i", strtotime($consulta->inicio_consulta)) }}</td>
                                                         <td>{{ date("H:i", strtotime($consulta->fim_consulta)) }}</td>
                                                         <td><button class="btn btn-info" data-toggle="modal" data-target="#atualizaConsulta" onclick="pegaConsulta({{ $consulta }})" {{ $consulta->pagamento == 'realizado' ? 'disabled' : '' }}>Editar</button></td>
-                                                        <td><a href="#" class="btn btn-primary">Visualizar</a></td>
+                                                        <td><a href="{{ route('registrosessao', [ 'id_consulta' => $consulta->id, 'id_paciente' => $paciente->id ]) }}" class="btn btn-primary">Visualizar</a></td>
                                                         <td>
                                                             <form id="form_{{ $consulta->id }}" method="post" action="/consulta/{{ $consulta->id }}">
                                                                 @csrf

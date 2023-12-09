@@ -59,7 +59,5 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::post('/pesquisar-gastos-receitas', [\App\Http\Controllers\SaidaController::class, 'pesquisarGastoseReceitas'])->name('saida.pesquisargastosereceitas');
     Route::get('/gastos-e-receita', [\App\Http\Controllers\SaidaController::class, 'gastosEReceita'])->name('saida.gastosereceita');    
     Route::post('/primeira-sessao/salvar', [\App\Http\Controllers\PrimeiraSessaoController::class, 'store'])->name('primeirasessao.store');
-    Route::get('/registro-sessao', function(){
-        return view('registro_sessao');
-    });
+    Route::get('/registro-sessao/{id_consulta}/{id_paciente}', [\App\Http\Controllers\RegistroSessaoController::class, 'sessao'])->name('registrosessao');
 });

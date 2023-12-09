@@ -19,8 +19,8 @@
 
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Pacientes</a></li>
-              <li class="breadcrumb-item"><a href="#">Nome</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('paciente.index') }}">Pacientes</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('paciente.show', ['paciente' => $paciente->id]) }}">{{ $paciente->nome." ".$paciente->sobrenome }}</a></li>
               <li class="breadcrumb-item active" aria-current="page">Registro de Sessão</li>
             </ol>
         </nav>
