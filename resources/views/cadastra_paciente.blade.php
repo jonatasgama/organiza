@@ -216,8 +216,8 @@
                                                     <div class="form-group mb-3 col-sm-6">                                                
                                                             Anamnese
                                                             <select class="custom-select" name="anamnese">
-                                                                <option value="sim" {{ (isset($paciente->primeiraSessao->anamnese) == 'sim' ? 'selected' : '') ?? old('anamnese') }}>Sim</option>
-                                                                <option value="não" {{ (isset($paciente->primeiraSessao->anamnese) == 'não' ? 'selected' : '') ?? old('anamnese') }}>Não</option>
+                                                                <option value="sim" {{ ((isset($paciente->primeiraSessao->anamnese) and $paciente->primeiraSessao->anamnese == 'sim') ? 'selected' : '') ?? old('anamnese') }}>Sim</option>
+                                                                <option value="não" {{ ((isset($paciente->primeiraSessao->anamnese) and $paciente->primeiraSessao->anamnese == 'não') ? 'selected' : '') ?? old('anamnese') }}>Não</option>
                                                             </select>
                                                         
                                                     </div>
@@ -229,12 +229,12 @@
                                                     
                                                     <div class="form-group mb-3 col-sm-12">
                                                         Metas terapêuticas da sessão:                                             
-                                                        <textarea class="form-control" name="metas_terapeuticas" rows="4"></textarea>
+                                                        <textarea class="form-control" name="metas_terapeuticas" rows="4">{{ $paciente->primeiraSessao->metas_terapeuticas ?? old('metas_terapeuticas') }}</textarea>
                                                     </div>
 
                                                     <div class="form-group mb-3 col-sm-12">
                                                         Anotações relevantes:                  
-                                                        <textarea class="form-control" name="anotacoes_relevantes" rows="4"></textarea>
+                                                        <textarea class="form-control" name="anotacoes_relevantes" rows="4">{{ $paciente->primeiraSessao->anotacoes_relevantes ?? old('anotacoes_relevantes') }}</textarea>
                                                     </div>
 
                                                     <button type="submit" class="btn btn-info mb-4">
@@ -248,8 +248,9 @@
                                 </form>
                                 
                                 
-                                <form action="{{ route('primeirasessao.store') }}" method="post">
+                                <form action="{{ route('avaliacao.store') }}" method="post">
                                     @csrf
+                                    <input type="hidden" name="paciente_id" value="{{ $paciente->id }}">
                                     <div class="mb-4 accordion" id="accordionExample">
                                         <div class="card">
                                             <div class="card-header" id="headingOne">
@@ -272,22 +273,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="familia_avalicao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="familia_avalicao_1_a_5" rows="3">{{ isset($avaliacao->familia_avalicao_1_a_5) ? $avaliacao->familia_avalicao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="familia_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="familia_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->familia_gostaria_de_alcancar) ? $avaliacao->familia_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="familia_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="familia_dificuldades" rows="3">{{ isset($avaliacao->familia_dificuldades) ? $avaliacao->familia_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="familia_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="familia_diferente" rows="3">{{ isset($avaliacao->familia_diferente) ? $avaliacao->familia_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>
@@ -300,22 +301,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="saude_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="saude_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->saude_avaliacao_1_a_5) ? $avaliacao->saude_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="saude_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="saude_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->saude_gostaria_de_alcancar) ? $avaliacao->saude_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="saude_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="saude_dificuldades" rows="3">{{ isset($avaliacao->saude_dificuldades) ? $avaliacao->saude_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="saude_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="saude_diferente" rows="3">{{ isset($avaliacao->saude_diferente) ? $avaliacao->saude_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>
@@ -328,22 +329,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="profissional_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="profissional_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->profissional_avaliacao_1_a_5) ? $avaliacao->profissional_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="profissional_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="profissional_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->profissional_gostaria_de_alcancar) ? $avaliacao->profissional_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="profissional_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="profissional_dificuldades" rows="3">{{ isset($avaliacao->profissional_dificuldades) ? $avaliacao->profissional_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="profissional_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="profissional_diferente" rows="3">{{ isset($avaliacao->profissional_diferente) ? $avaliacao->profissional_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div> 
@@ -356,22 +357,22 @@
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="lazer_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="lazer_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->lazer_avaliacao_1_a_5) ? $avaliacao->lazer_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="lazer_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="lazer_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->lazer_gostaria_de_alcancar) ? $avaliacao->lazer_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="lazer_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="lazer_dificuldades" rows="3">{{ isset($avaliacao->lazer_dificuldades) ? $avaliacao->lazer_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="lazer_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="lazer_diferente" rows="3">{{ isset($avaliacao->lazer_diferente) ? $avaliacao->lazer_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>   
@@ -384,22 +385,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="financeiro_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="financeiro_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->financeiro_avaliacao_1_a_5) ? $avaliacao->financeiro_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="financeiro_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="financeiro_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->financeiro_gostaria_de_alcancar) ? $avaliacao->financeiro_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="financeiro_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="financeiro_dificuldades" rows="3">{{ isset($avaliacao->financeiro_dificuldades) ? $avaliacao->financeiro_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="financeiro_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="financeiro_diferente" rows="3">{{ isset($avaliacao->financeiro_diferente) ? $avaliacao->financeiro_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>  
@@ -412,22 +413,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="afetiva_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="afetiva_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->afetiva_avaliacao_1_a_5) ? $avaliacao->afetiva_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="afetiva_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="afetiva_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->afetiva_gostaria_de_alcancar) ? $avaliacao->afetiva_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="afetiva_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="afetiva_dificuldades" rows="3">{{ isset($avaliacao->afetiva_dificuldades) ? $avaliacao->afetiva_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="afetiva_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="afetiva_diferente" rows="3">{{ isset($avaliacao->afetiva_diferente) ? $avaliacao->afetiva_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>   
@@ -440,22 +441,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="academia_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="academia_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->academia_avaliacao_1_a_5) ? $avaliacao->academia_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="academia_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="academia_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->academia_gostaria_de_alcancar) ? $avaliacao->academia_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="academia_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="academia_dificuldades" rows="3">{{ isset($avaliacao->academia_dificuldades) ? $avaliacao->academia_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="academia_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="academia_diferente" rows="3">{{ isset($avaliacao->academia_diferente) ? $avaliacao->academia_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>
@@ -468,22 +469,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="espiritualidade_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="espiritualidade_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->espiritualidade_avaliacao_1_a_5) ? $avaliacao->espiritualidade_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="espiritualidade_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="espiritualidade_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->espiritualidade_gostaria_de_alcancar) ? $avaliacao->espiritualidade_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="espiritualidade_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="espiritualidade_dificuldades" rows="3">{{ isset($avaliacao->espiritualidade_dificuldades) ? $avaliacao->espiritualidade_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="espiritualidade_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="espiritualidade_diferente" rows="3">{{ isset($avaliacao->espiritualidade_diferente) ? $avaliacao->espiritualidade_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>                                                    
@@ -496,22 +497,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="social_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="social_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->social_avaliacao_1_a_5) ? $avaliacao->social_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="social_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="social_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->social_gostaria_de_alcancar) ? $avaliacao->social_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="social_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="social_dificuldades" rows="3">{{ isset($avaliacao->social_dificuldades) ? $avaliacao->social_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="social_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="social_diferente" rows="3">{{ isset($avaliacao->social_diferente) ? $avaliacao->social_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>      
@@ -524,22 +525,22 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="justica_social_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="justica_social_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->justica_social_avaliacao_1_a_5) ? $avaliacao->justica_social_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="justica_social_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="justica_social_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->justica_social_gostaria_de_alcancar) ? $avaliacao->justica_social_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="justica_social_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="justica_social_dificuldades" rows="3">{{ isset($avaliacao->justica_social_dificuldades) ? $avaliacao->justica_social_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="justica_social_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="justica_social_diferente" rows="3">{{ isset($avaliacao->justica_social_diferente) ? $avaliacao->justica_social_diferente : '' }}</textarea>
                                                         </div>
 
                                                     </div>      
@@ -552,25 +553,29 @@
                                                         
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Avaliação 1 a 5:
-                                                            <textarea class="form-control" name="autoconceito_avaliacao_1_a_5" rows="3"></textarea>
+                                                            <textarea class="form-control" name="autoconceito_avaliacao_1_a_5" rows="3">{{ isset($avaliacao->autoconceito_avaliacao_1_a_5) ? $avaliacao->autoconceito_avaliacao_1_a_5 : '' }}</textarea>
                                                         </div> 
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria de alcançar?
-                                                            <textarea class="form-control" name="autoconceito_gostaria_de_alcancar" rows="3"></textarea>
+                                                            <textarea class="form-control" name="autoconceito_gostaria_de_alcancar" rows="3">{{ isset($avaliacao->autoconceito_gostaria_de_alcancar) ? $avaliacao->autoconceito_gostaria_de_alcancar : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             Quais são as sua dificuldades?
-                                                            <textarea class="form-control" name="autoconceito_dificuldades" rows="3"></textarea>
+                                                            <textarea class="form-control" name="autoconceito_dificuldades" rows="3">{{ isset($avaliacao->autoconceito_dificuldades) ? $avaliacao->autoconceito_dificuldades : '' }}</textarea>
                                                         </div>
 
                                                         <div class="col-sm-12 mb-3 mb-sm-0">
                                                             O que gostaria que fosse diferente?
-                                                            <textarea class="form-control" name="autoconceito_diferente" rows="3"></textarea>
+                                                            <textarea class="form-control" name="autoconceito_diferente" rows="3">{{ isset($avaliacao->autoconceito_diferente) ? $avaliacao->autoconceito_diferente : '' }}</textarea>
                                                         </div>
 
-                                                    </div>                                                    
+                                                    </div>    
+                                                    
+                                                    <button type="submit" class="btn btn-info mb-4">
+                                                        Salvar
+                                                    </button>
                                                 </div>
                                             </div>                            
                                         </div>

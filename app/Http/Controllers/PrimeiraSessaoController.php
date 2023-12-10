@@ -38,7 +38,9 @@ class PrimeiraSessaoController extends Controller
                 'p9' => $req->p9,
                 'p10' => $req->p10,
                 'anamnese' => $req->anamnese,
-                'hipoteses_diagnostica' => $req->hipoteses_diagnostica
+                'hipoteses_diagnostica' => $req->hipoteses_diagnostica,
+                'anotacoes_relevantes' => $req->anotacoes_relevantes,
+                'metas_terapeuticas' => $req->metas_terapeuticas
             ]
         );
 

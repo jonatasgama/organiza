@@ -12,7 +12,7 @@ class PrimeiraSessao extends Model
 
     protected $table = 'primeiras_sessoes';
 
-    protected $fillable = ['paciente_id','data_sessao', 'plano_de_saude', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10', 'anamnese', 'hipoteses_diagnostica'];
+    protected $fillable = ['paciente_id','data_sessao', 'plano_de_saude', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9', 'p10', 'anamnese', 'hipoteses_diagnostica', 'anotacoes_relevantes', 'metas_terapeuticas'];
 
     public function paciente(): BelongsTo
     /**

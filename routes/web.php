@@ -61,4 +61,5 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::post('/primeira-sessao/salvar', [\App\Http\Controllers\PrimeiraSessaoController::class, 'store'])->name('primeirasessao.store');
     Route::get('/registro-sessao/{id_consulta}/{id_paciente}', [\App\Http\Controllers\RegistroSessaoController::class, 'sessao'])->name('registrosessao');
     Route::post('/registro-sessao', [\App\Http\Controllers\RegistroSessaoController::class, 'store'])->name('registrosessao.store');
+    Route::post('/avaliacao', [\App\Http\Controllers\AvaliacaoController::class, 'store'])->name('avaliacao.store');
 });

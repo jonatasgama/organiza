@@ -8,6 +8,7 @@ use App\Models\Consulta;
 use App\Models\Tratamento;
 use App\Models\Pagamento;
 use App\Models\Questionario;
+use App\Models\Avaliacao;
 
 class PacienteController extends Controller
 {
@@ -70,7 +71,8 @@ class PacienteController extends Controller
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
         $perguntas = Questionario::all();
-        return view('cadastra_paciente', [ 'funcao' => 'Visualizar', 'paciente' => $paciente, 'consultas' => $consultas, 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos, 'perguntas' => $perguntas ]);          
+        $avaliacao = Avaliacao::where('paciente_id', $id)->first();
+        return view('cadastra_paciente', [ 'funcao' => 'Visualizar', 'paciente' => $paciente, 'consultas' => $consultas, 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos, 'perguntas' => $perguntas, 'avaliacao' => $avaliacao ]);          
     }
 
     /**
