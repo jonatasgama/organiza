@@ -42,6 +42,7 @@ class PrimeiraSessaoController extends Controller
             ]
         );
 
+        //estou pegando o ID da primeira sessao e associando ao paciente correspondente
         $paciente = Paciente::updateOrCreate(
             [ 'id' => $req->paciente_id],
             [ 'primeira_sessao_id' => $resultado->id]
