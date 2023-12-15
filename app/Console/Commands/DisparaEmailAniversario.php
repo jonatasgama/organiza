@@ -35,7 +35,8 @@ class DisparaEmailAniversario extends Command
         foreach($consultas as $consulta){
             $emailData = [
                 'title' => 'Feliz Aniversário.',
-                'body' => "Olá, $consulta->nome, ". config('app.name'). " te deseja um feliz aniversário."
+                'body' => "Querido(a), $consulta->nome,".PHP_EOL. 
+                "Hoje celebramos não apenas mais um ano de vida, mas também a jornada única e valiosa que você percorreu. Que este aniversário seja um lembrete do quanto você é forte e capaz. Que este novo ciclo seja repleto de realizações e descobertas significativas. Estou aqui para apoiá-lo(a) em todas as fases dessa jornada."
             ];
     
             Mail::to($consulta->email)->send(new Aniversario($emailData));
