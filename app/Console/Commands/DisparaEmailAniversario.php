@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Mail;
 use App\Mail\Aniversario;
 
-class DisparaEmailLembrete extends Command
+class DisparaEmailAniversario extends Command
 {
     /**
      * The name and signature of the console command.
