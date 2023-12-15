@@ -9,14 +9,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class NotificaConsulta extends Mailable
+class Aniversario extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $emailData;
 
     /**
-     * Notifica o usuário por e-mail caso a consulta tenha sido cancelada ou a data tenha sido alterada.
+     * Create a new message instance.
      */
     public function __construct($emailData)
     {
@@ -29,7 +29,7 @@ class NotificaConsulta extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->emailData['assunto'] == 'Consulta cancelada' ? $this->emailData['assunto'] : 'Sua consulta está chegando',
+            subject: 'Feliz Aniversário',
         );
     }
 
@@ -39,7 +39,7 @@ class NotificaConsulta extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.notifica-consulta',
+            markdown: 'emails.lembrete-consulta',
         );
     }
 
@@ -52,5 +52,4 @@ class NotificaConsulta extends Mailable
     {
         return [];
     }
-
 }

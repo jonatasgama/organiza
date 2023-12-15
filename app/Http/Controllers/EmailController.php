@@ -20,7 +20,5 @@ class EmailController extends Controller
         ];
 
         Mail::to($email)->send(new Email($emailData));
-           
-        dd("Email enviado com sucesso.");
     }
 }
