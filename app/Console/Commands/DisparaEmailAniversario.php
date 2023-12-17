@@ -33,10 +33,12 @@ class DisparaEmailAniversario extends Command
         $consultas = DB::select('SELECT * from pacientes where date_format(dt_nascimento, "%M %d") = date_format(now(), "%M %d") and deleted_at is null');
         
         foreach($consultas as $consulta){
+
+            $msg1 ="Querido(a), $consulta->nome, ";
+            $msg2 = "Hoje celebramos não apenas mais um ano de vida, mas também a jornada única e valiosa que você percorreu. Que este aniversário seja um lembrete do quanto você é forte e capaz. Que este novo ciclo seja repleto de realizações e descobertas significativas. Estou aqui para apoiá-lo(a) em todas as fases dessa jornada.";
             $emailData = [
                 'title' => 'Feliz Aniversário.',
-                'body' => "Querido(a), $consulta->nome,".PHP_EOL. 
-                "Hoje celebramos não apenas mais um ano de vida, mas também a jornada única e valiosa que você percorreu. Que este aniversário seja um lembrete do quanto você é forte e capaz. Que este novo ciclo seja repleto de realizações e descobertas significativas. Estou aqui para apoiá-lo(a) em todas as fases dessa jornada."
+                'body' => "$msg1 "."\r\n\r\n"."  $msg2" 
             ];
     
             Mail::to($consulta->email)->send(new Aniversario($emailData));
