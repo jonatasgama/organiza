@@ -364,7 +364,6 @@
                 $('#atualizaConsulta').modal();
                 calEvent.pagamento == "realizado" ? document.getElementById('a_pagamento').setAttribute("disabled", true) : document.getElementById('a_pagamento').removeAttribute("disabled");
                 document.getElementById('form_atualiza').setAttribute("action", "/consulta/"+calEvent.id);
-                console.log(calEvent);
             }            
         });
    
