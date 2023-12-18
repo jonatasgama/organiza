@@ -32,6 +32,7 @@
 
             <!-- Sidebar - Brand -->
             <img src="img/logo.png" width="170" class="mx-auto d-block">
+            <hr class="sidebar-divider my-0">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 
                 <div class="sidebar-brand-text mx-3">ORGANIZA CRM</div>
