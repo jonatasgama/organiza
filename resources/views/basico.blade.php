@@ -58,7 +58,7 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('consulta.index') }}">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-clipboard-list"></i>
                     <span>Consultas</span>
                 </a>
             </li>
@@ -67,7 +67,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-user-md"></i>
                     <span>Tratamentos</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -82,7 +82,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagamentos"
                     aria-expanded="true" aria-controls="pagamentos">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-money-bill-alt"></i>
                     <span>Formas de Pagamento</span>
                 </a>
                 <div id="pagamentos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -98,7 +98,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pacientes"
                     aria-expanded="true" aria-controls="pacientes">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-user-friends"></i>
                     <span>Pacientes</span>
                 </a>
                 <div id="pacientes" class="collapse" aria-labelledby="headingUtilities"
@@ -122,7 +122,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gastos"
                     aria-expanded="true" aria-controls="gastos">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-hand-holding-usd"></i>
                     <span>Gastos</span>
                 </a>
                 <div id="gastos" class="collapse" aria-labelledby="headingUtilities"
@@ -139,7 +139,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#relatorios"
                     aria-expanded="true" aria-controls="relatorios">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-chart-line"></i>
                     <span>Relatórios</span>
                 </a>
                 <div id="relatorios" class="collapse" aria-labelledby="headingUtilities"
@@ -243,7 +243,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $_SESSION["nome"] }}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{ asset('img/undraw_profile.svg') }}">
+                                    src="{{ asset('img/undraw_profile_1.svg') }}">
                             </a>
                             <!-- Dropdown - User Information-->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
