@@ -61,7 +61,7 @@
                                     </div>  
                                                                       
                                     <div class="col-sm-3">
-                                        Teelfone:
+                                        Telefone:
                                         <input type="text" class="form-control" name="telefone" id="telefone"
                                             placeholder="Telefone com DDD" value="{{ $paciente->telefone ?? old('telefone') }}" required>
                                     </div>

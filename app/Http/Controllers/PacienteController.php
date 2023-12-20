@@ -30,12 +30,14 @@ class PacienteController extends Controller
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
         $perguntas = Questionario::all();
+        $canais = CanalOrigem::all();
         return view('cadastra_paciente', 
         [ 
             'funcao' => 'Salvar',
             'tratamentos' => $tratamentos, 
             'pagamentos' => $pagamentos, 
             'perguntas' => $perguntas, 
+            'canais' => $canais
         ]);
     }
 
