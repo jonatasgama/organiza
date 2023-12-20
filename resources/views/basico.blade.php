@@ -110,8 +110,23 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#canais"
+                    aria-expanded="true" aria-controls="pacientes">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Canal de Origem</span>
+                </a>
+                <div id="canais" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('canalorigem.index') }}">Listar</a>
+                        <a class="collapse-item" href="{{ route('canalorigem.create') }}">Cadastrar</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider">            
 
             <!-- Heading -->
             <div class="sidebar-heading">

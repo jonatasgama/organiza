@@ -9,6 +9,7 @@ use App\Models\Tratamento;
 use App\Models\Pagamento;
 use App\Models\Questionario;
 use App\Models\Avaliacao;
+use App\Models\CanalOrigem;
 
 class PacienteController extends Controller
 {
@@ -29,7 +30,13 @@ class PacienteController extends Controller
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
         $perguntas = Questionario::all();
-        return view('cadastra_paciente', ['funcao' => 'Cadastrar', 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos, 'perguntas' => $perguntas ]);
+        return view('cadastra_paciente', 
+        [ 
+            'funcao' => 'Salvar',
+            'tratamentos' => $tratamentos, 
+            'pagamentos' => $pagamentos, 
+            'perguntas' => $perguntas, 
+        ]);
     }
 
     /**
@@ -50,14 +57,12 @@ class PacienteController extends Controller
             'required' => 'O campo :attribute deve ser preenchido',
             'email.unique' => 'Esse e-mail já está sendo utilizado.'
         ];
-
         $req->validate($regras, $feedback);
 
         $resultado = Paciente::create($req->all());
 
         $msg = $resultado == true ? 'Paciente cadastrado com sucesso.' : 'Ocorreu algum erro, paciente não cadastrado.';
-        $alert = $resultado == true ? 'success' : 'danger';
-        //return view('cadastra_paciente', [ 'msg' => $msg, 'alert' => $alert, 'funcao' => 'Cadastrar' ]);  
+        $alert = $resultado == true ? 'success' : 'danger';  
         return redirect()->route('paciente.create')->with('msg', $msg)->with('alert', $alert);
     }
 
@@ -66,13 +71,24 @@ class PacienteController extends Controller
      */
     public function show(string $id)
     {
-        $paciente = Paciente::with(['primeiraSessao'])->where(['id' => $id])->first();
+        $paciente = Paciente::with(['primeiraSessao', 'canalOrigem'])->where(['id' => $id])->first();
         $consultas = Consulta::where('paciente_id', $id)->orderBy('inicio_consulta')->get();
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
         $perguntas = Questionario::all();
         $avaliacao = Avaliacao::where('paciente_id', $id)->first();
-        return view('cadastra_paciente', [ 'funcao' => 'Visualizar', 'paciente' => $paciente, 'consultas' => $consultas, 'tratamentos' => $tratamentos, 'pagamentos' => $pagamentos, 'perguntas' => $perguntas, 'avaliacao' => $avaliacao ]);          
+        $canais = CanalOrigem::all();
+        return view('cadastra_paciente', 
+        [ 
+            'funcao' => 'Visualizar',
+            'paciente' => $paciente, 
+            'consultas' => $consultas, 
+            'tratamentos' => $tratamentos, 
+            'pagamentos' => $pagamentos, 
+            'perguntas' => $perguntas, 
+            'avaliacao' => $avaliacao,
+            'canais' => $canais
+        ]);          
     }
 
     /**
@@ -107,9 +123,7 @@ class PacienteController extends Controller
         $resultado->update($req->all());
 
         $msg = $resultado == true ? 'Paciente atualizado com sucesso.' : 'Ocorreu algum erro, registro não foi atualizado.';
-        $alert = $resultado == true ? 'success' : 'danger';
-        //$pacientes = Paciente::all();
-        //return view('lista_paciente', [ 'msg' => $msg, 'alert' => $alert, 'pacientes' => $pacientes ]);  
+        $alert = $resultado == true ? 'success' : 'danger'; 
         return redirect()->route('paciente.index')->with('msg', $msg)->with('alert', $alert);      
     }
 

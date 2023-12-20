@@ -102,11 +102,23 @@
                                             placeholder="Bairro" value="{{ $paciente->bairro ?? old('bairro') }}" required>
                                     </div>  
                                                                       
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-4">
                                         Complemento:
                                         <input type="text" class="form-control" name="complemento" id="complemento"
                                             placeholder="Complemento" value="{{ $paciente->complemento ?? old('complemento') }}">
-                                    </div>                                    
+                                    </div>      
+                                    
+                                    <div class="col-sm-4">                                                
+                                        Canal origem
+                                        <select class="custom-select" name="canal_origem_id">
+                                            @if(isset($canais))
+                                                @foreach ( $canais as $canal )
+                                                    <option value="{{ $canal->id }}" {{ (isset($paciente->canalOrigem->id) and $paciente->canalOrigem->id == $canal->id) ? 'selected' : '' }}>{{ $canal->canal }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div> 
+
                                 </div>                                  
 
                                 <button class="btn btn-primary mb-4" type="submit">
@@ -138,25 +150,17 @@
                                                 <div class="card-body">
                                                     <div class="form-group col-sm-12 row">     
                                                         
-                                                        <div class="col-sm-4 mb-3 mb-sm-0">
+                                                        <div class="col-sm-6 mb-3 mb-sm-0">
                                                             Data da sessão:
                                                             <input type="date" class="form-control" name="data_sessao" id="data_sessao"
                                                                 value="{{ $paciente->primeiraSessao->data_sessao ?? old('data_sessao') }}" required>
                                                         </div>   
 
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-6">
                                                             Plano de saúde:
                                                             <input type="text" class="form-control" name="plano_de_saude" id="plano_de_saude"
                                                                 placeholder="Plano de saúde" value="{{ $paciente->primeiraSessao->plano_de_saude ?? old('plano_de_saude') }}" required>
-                                                        </div>
-
-                                                        <div class="col-sm-4">                                                
-                                                            Canal origem
-                                                            <select class="custom-select" name="anamnese">
-                                                                <option value="instagram">Instagram</option>
-                                                            </select>
-                                                        
-                                                        </div>                                                        
+                                                        </div>                                                       
                                                         
                                                     </div>         
                                                     

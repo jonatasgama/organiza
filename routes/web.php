@@ -62,4 +62,7 @@ Route::middleware('autenticacao:padrao,visitante')->group(function(){
     Route::get('/registro-sessao/{id_consulta}/{id_paciente}', [\App\Http\Controllers\RegistroSessaoController::class, 'sessao'])->name('registrosessao');
     Route::post('/registro-sessao', [\App\Http\Controllers\RegistroSessaoController::class, 'store'])->name('registrosessao.store');
     Route::post('/avaliacao', [\App\Http\Controllers\AvaliacaoController::class, 'store'])->name('avaliacao.store');
+    Route::post('/canal-origem', [\App\Http\Controllers\CanalOrigemController::class, 'store'])->name('canalorigem.store');
+    Route::get('/canal-origem', [\App\Http\Controllers\CanalOrigemController::class, 'index'])->name('canalorigem.index');
+    Route::get('/canal-origem-create', [\App\Http\Controllers\CanalOrigemController::class, 'create'])->name('canalorigem.create');
 });
