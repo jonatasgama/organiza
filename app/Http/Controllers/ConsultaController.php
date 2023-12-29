@@ -30,16 +30,16 @@ class ConsultaController extends Controller
 
     public function dash(Request $req)
     {
-        $receita = DB::scalar("select sum(t.valor) as receita from tratamentos t inner join consultas c on t.id = c.tratamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'");
-        $gastos = DB::scalar("SELECT sum(valor) from (SELECT sum(quantidade) * valor_unidade as valor, gasto_id from `financeiros` where month(data_registro) = month(now()) group by gasto_id) as base");
-        $consultas_realizadas = DB::scalar("select count(id) as consultas_realizadas from consultas where monthname(inicio_consulta) = monthname(now()) and pagamento = 'realizado'");
+        $receita = DB::scalar("select sum(t.valor) as receita from tratamentos t inner join consultas c on t.id = c.tratamento_id where month(c.inicio_consulta) = month(now()) and year(c.inicio_consulta) = year(now()) and c.pagamento = 'realizado'");
+        $gastos = DB::scalar("SELECT sum(valor) from (SELECT sum(quantidade) * valor_unidade as valor, gasto_id from `financeiros` where month(data_registro) = month(now()) and year(data_registro) = year(now()) group by gasto_id) as base");
+        $consultas_realizadas = DB::scalar("select count(id) as consultas_realizadas from consultas where monthname(inicio_consulta) = monthname(now()) and year(inicio_consulta) = year(now()) and pagamento = 'realizado'");
         $consultas_agendadas = DB::scalar("select count(id) as consultas_agendadas from consultas where date(inicio_consulta) >= date(now()) and pagamento = 'pendente' and deleted_at is null");
-        $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and month(inicio_consulta) = month(now()) and pagamento = 'pendente' and deleted_at is null");
-        $forma_pagamentos = DB::select("select count(p.forma_pagamento) as qtd,p.forma_pagamento from consultas c inner join pagamentos p on p.id = c.pagamento_id where month(c.inicio_consulta) = month(now()) and c.pagamento = 'realizado'
+        $nao_realizadas = DB::scalar("select count(id) as nao_realizadas from consultas where date(inicio_consulta) < date(now()) and month(inicio_consulta) = month(now()) and year(inicio_consulta) = year(now()) and pagamento = 'pendente' and deleted_at is null");
+        $forma_pagamentos = DB::select("select count(p.forma_pagamento) as qtd,p.forma_pagamento from consultas c inner join pagamentos p on p.id = c.pagamento_id where month(c.inicio_consulta) = month(now()) and year(c.inicio_consulta) = year(now()) and c.pagamento = 'realizado'
         group by p.forma_pagamento");
         DB::select("SET lc_time_names = 'pt_BR';");
-        $receita_por_mes = DB::select("select sum(t.valor) as total,  substr(monthname(c.inicio_consulta), 1, 3) as mes from consultas c join tratamentos t on t.id = c.tratamento_id where c.pagamento = 'realizado' group by mes
-        order by mes desc");
+        $receita_por_mes = DB::select("select sum(t.valor) as total,  substr(date_format(c.inicio_consulta, '%M'), 1, 3) as mes from consultas c join tratamentos t on t.id = c.tratamento_id where c.pagamento = 'realizado' and year(c.inicio_consulta) = year(now()) group by mes
+        order by date_format(c.inicio_consulta, '%m')");
         $mes = DB::scalar("select substr(monthname(now()),1, 3)");
         $canais_de_origem = DB::select("SELECT COUNT(p.id) as qtd, c.canal from pacientes p inner JOIN canais_de_origem c on c.id = p.canal_origem_id where p.deleted_at is null GROUP BY canal order by qtd desc");
 
