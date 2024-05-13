@@ -31,7 +31,6 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <img src="{{ env('APP_URL') }}/img/logo.png" width="170" class="img-fluid mx-auto d-block">
             <hr class="sidebar-divider my-0">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 

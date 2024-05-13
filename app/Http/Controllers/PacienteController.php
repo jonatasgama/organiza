@@ -7,8 +7,6 @@ use App\Models\Paciente;
 use App\Models\Consulta;
 use App\Models\Tratamento;
 use App\Models\Pagamento;
-use App\Models\Questionario;
-use App\Models\Avaliacao;
 use App\Models\CanalOrigem;
 
 class PacienteController extends Controller
@@ -19,7 +17,7 @@ class PacienteController extends Controller
     public function index(Request $req)
     {
         $pacientes = Paciente::all();
-        return view('lista_paciente', [ 'pacientes' => $pacientes ]);        
+        return view('lista_paciente', [ 'pacientes' => $pacientes ]);
     }
 
     /**
@@ -29,14 +27,12 @@ class PacienteController extends Controller
     {
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
-        $perguntas = Questionario::all();
         $canais = CanalOrigem::all();
-        return view('cadastra_paciente', 
-        [ 
+        return view('cadastra_paciente',
+        [
             'funcao' => 'Salvar',
-            'tratamentos' => $tratamentos, 
-            'pagamentos' => $pagamentos, 
-            'perguntas' => $perguntas, 
+            'tratamentos' => $tratamentos,
+            'pagamentos' => $pagamentos,
             'canais' => $canais
         ]);
     }
@@ -64,7 +60,7 @@ class PacienteController extends Controller
         $resultado = Paciente::create($req->all());
 
         $msg = $resultado == true ? 'Paciente cadastrado com sucesso.' : 'Ocorreu algum erro, paciente não cadastrado.';
-        $alert = $resultado == true ? 'success' : 'danger';  
+        $alert = $resultado == true ? 'success' : 'danger';
         return redirect()->route('paciente.create')->with('msg', $msg)->with('alert', $alert);
     }
 
@@ -73,24 +69,20 @@ class PacienteController extends Controller
      */
     public function show(string $id)
     {
-        $paciente = Paciente::with(['primeiraSessao', 'canalOrigem'])->where(['id' => $id])->first();
+        $paciente = Paciente::with(['canalOrigem'])->where(['id' => $id])->first();
         $consultas = Consulta::where('paciente_id', $id)->orderBy('inicio_consulta')->get();
         $tratamentos = Tratamento::all();
         $pagamentos = Pagamento::all();
-        $perguntas = Questionario::all();
-        $avaliacao = Avaliacao::where('paciente_id', $id)->first();
         $canais = CanalOrigem::all();
-        return view('cadastra_paciente', 
-        [ 
+        return view('cadastra_paciente',
+        [
             'funcao' => 'Visualizar',
-            'paciente' => $paciente, 
-            'consultas' => $consultas, 
-            'tratamentos' => $tratamentos, 
-            'pagamentos' => $pagamentos, 
-            'perguntas' => $perguntas, 
-            'avaliacao' => $avaliacao,
+            'paciente' => $paciente,
+            'consultas' => $consultas,
+            'tratamentos' => $tratamentos,
+            'pagamentos' => $pagamentos,
             'canais' => $canais
-        ]);          
+        ]);
     }
 
     /**
@@ -99,7 +91,7 @@ class PacienteController extends Controller
     public function edit(string $id)
     {
         $paciente = Paciente::find($id);
-        return view('cadastra_paciente', [ 'funcao' => 'Editar', 'paciente' => $paciente ]);        
+        return view('cadastra_paciente', [ 'funcao' => 'Editar', 'paciente' => $paciente ]);
     }
 
     /**
@@ -121,12 +113,12 @@ class PacienteController extends Controller
 
         $req->validate($regras, $feedback);
 
-        $resultado = Paciente::find($id);       
+        $resultado = Paciente::find($id);
         $resultado->update($req->all());
 
         $msg = $resultado == true ? 'Paciente atualizado com sucesso.' : 'Ocorreu algum erro, registro não foi atualizado.';
-        $alert = $resultado == true ? 'success' : 'danger'; 
-        return redirect()->route('paciente.index')->with('msg', $msg)->with('alert', $alert);      
+        $alert = $resultado == true ? 'success' : 'danger';
+        return redirect()->route('paciente.index')->with('msg', $msg)->with('alert', $alert);
     }
 
     /**
@@ -138,7 +130,7 @@ class PacienteController extends Controller
 
         $msg = $deletado == true ? 'Paciente deletado com sucesso.' : 'Ocorreu algum erro, registro não deletado.';
         $alert = $deletado == true ? 'success' : 'danger';
-        return redirect()->route('paciente.index')->with('msg', $msg)->with('alert', $alert);         
+        return redirect()->route('paciente.index')->with('msg', $msg)->with('alert', $alert);
     }
 
     public function procurar(Request $req)
@@ -149,6 +141,6 @@ class PacienteController extends Controller
 
         $pacientes = $pacientes->where('nome', 'like', "%$nome%")->get();
 
-        return view('lista_paciente', [ 'pacientes' => $pacientes ]);          
-    }    
+        return view('lista_paciente', [ 'pacientes' => $pacientes ]);
+    }
 }

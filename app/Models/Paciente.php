@@ -12,15 +12,6 @@ class Paciente extends Model
 
     protected $fillable = ['nome', 'sobrenome', 'dt_nascimento', 'telefone', 'email', 'cep', 'cidade', 'endereco', 'bairro', 'complemento', 'primeira_sessao_id', 'canal_origem_id'];
 
-    public function primeiraSessao(): HasOne
-    /**
-     * Get the user associated with the Paciente
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    {
-        return $this->hasOne(PrimeiraSessao::class, 'id', 'primeira_sessao_id');
-    }
 
     /**
      * Get the user associated with the Paciente
